@@ -1,29 +1,33 @@
 {
-  "name": "shoes-shop",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nttungqn/ptudw-cq2018_32.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/nttungqn/ptudw-cq2018_32/issues"
-  },
-  "homepage": "https://github.com/nttungqn/ptudw-cq2018_32#readme",
-  "dependencies": {
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "mongoose": "^5.10.13",
-    "winston": "^3.3.3"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.6"
-  }
+	"name": "shop",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "nodemon server.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Thanh Tung Nguyen",
+	"license": "ISC",
+	"dependencies": {
+		"@handlebars/allow-prototype-access": "^1.0.3",
+		"axios": "^0.20.0",
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.19.0",
+		"compression": "^1.7.4",
+		"cookie-parser": "^1.4.5",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"express-handlebars": "^5.2.0",
+		"express-handlebars-paginate": "^1.0.3",
+		"express-session": "^1.17.1",
+		"handlebars": "^4.7.6",
+		"helmet": "^4.2.0",
+		"mongoose": "^5.10.13",
+		"morgan": "^1.10.0",
+		"slugify": "^1.4.6"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.6"
+	}
 }
