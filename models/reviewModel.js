@@ -3,6 +3,10 @@ const Product = require('./productModel');
 
 const reviewSchema = new mongoose.Schema(
 	{
+		_id: {
+			type: Number,
+			required: true
+		},
 		review: {
 			type: String,
 			required: [true, 'Review can not be empty!'],

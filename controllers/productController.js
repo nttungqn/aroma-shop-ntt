@@ -1,50 +1,51 @@
-const { HTTPStatusCode, MESSAGE } = require('../utils/base');
-const Product = require('./../models/productModel');
-const AppError = require('./../utils/AppError');
-const catchAsync = require('./../utils/catchAsync');
+const { HTTPStatusCode, MESSAGE } = require("../utils/base");
+const Product = require("./../models/productModel");
+const AppError = require("./../utils/AppError");
+const catchAsync = require("./../utils/catchAsync");
 
 module.exports.getTrendingProduct = catchAsync(async (req, res) => {
-	const numItems = req.body.numItems || parseInt(process.env.TRENDING_PRODUCTS) || 8;
-	
+	const numItems =
+		req.body.numItems || parseInt(process.env.TRENDING_PRODUCTS) || 8;
+
 	const records = await Product.find()
-		.sort({ ratingsAverage: 'desc' })
+		.sort({ ratingsAverage: "desc" })
 		.limit(numItems);
-		
-	if (records) return res.status(HTTPStatusCode.OK).json({ result: {length: records.length, data: records }});
-	return res
-		.status(HTTPStatusCode.NOT_FOUND)
-		.json({ message: MESSAGE.NOT_FOUND });
+
+	if (records) return res.status(200).json({ result: records });
+	return res.status(404).json({ message: "Not found" });
 });
 
 module.exports.getTopProducts = catchAsync(async (req, res) => {
 	const numItems = parseInt(process.env.TRENDING_PRODUCTS) || 8;
-	
+
 	const records = await Product.find()
-		.sort({ ratingsAverage: 'desc' })
-		.limit(numItems)
-	if (records) return res.status(HTTPStatusCode.OK).json({ result: records });
-	return res
-		.status(HTTPStatusCode.NOT_FOUND)
-		.json({ message: MESSAGE.NOT_FOUND });
+		.sort({ ratingsAverage: "desc" })
+		.limit(numItems);
+	if (records)
+		return res
+			.status(200)
+			.json({ result: { length: records.length, data: records } });
+	return res.status(404).json({ message: "Not found" });
 });
 
 module.exports.getTopSellingProducts = catchAsync(async (req, res) => {
 	const numItems = parseInt(process.env.BEST_SELLER_PRODUCTS) || 8;
-	
+
 	const records = await Product.find()
-		.sort({ ratingsQuantity: 'desc' })
+		.sort({ ratingsQuantity: "desc" })
 		.limit(numItems);
 
-	if (records) return res.status(HTTPStatusCode.OK).json({ result: records });
-	return res
-		.status(HTTPStatusCode.NOT_FOUND)
-		.json({ message: MESSAGE.NOT_FOUND });
+	if (records)
+		return res
+			.status(200)
+			.json({ result: { length: records.length, data: records } });
+	return res.status(404).json({ message: "Not found" });
 });
 
 module.exports.getAllProducts = catchAsync(async (req, res) => {
 	const query = req.query;
 
-		if (req.query.color == null || isNaN(req.query.color)) {
+	if (req.query.color == null || isNaN(req.query.color)) {
 		req.query.color = 0;
 	}
 
@@ -65,7 +66,7 @@ module.exports.getAllProducts = catchAsync(async (req, res) => {
 	}
 
 	if (req.query.sort == null) {
-		req.query.sort = 'name';
+		req.query.sort = "name";
 	}
 
 	if (req.query.page == null || isNaN(req.query.page)) {
@@ -76,10 +77,10 @@ module.exports.getAllProducts = catchAsync(async (req, res) => {
 		req.query.limit = 9;
 	}
 
-	if (req.query.search == null || req.query.search.trim() == '') {
-		req.query.search = '';
+	if (req.query.search == null || req.query.search.trim() == "") {
+		req.query.search = "";
 	}
-	
+
 	let options = {
 		price: {
 			$gte: req.query.min,
@@ -87,7 +88,7 @@ module.exports.getAllProducts = catchAsync(async (req, res) => {
 		},
 		name: {
 			$regex: req.query.search,
-		}
+		},
 	};
 
 	let sortOpt = {};
@@ -112,64 +113,32 @@ module.exports.getAllProducts = catchAsync(async (req, res) => {
 
 	if (req.query.sort) {
 		switch (req.query.sort) {
-			case 'name':
-				sortOpt.name = 'asc';
+			case "name":
+				sortOpt.name = "asc";
 				break;
-			case 'price':
-				sortOpt.price = 'asc';
+			case "price":
+				sortOpt.price = "asc";
 				break;
-			case 'ratingsAverage':
-				sortOpt.ratingsAverage = 'asc';
+			case "ratingsAverage":
+				sortOpt.ratingsAverage = "asc";
 				break;
 			default:
-				sortOpt.name = 'asc';
+				sortOpt.name = "asc";
 				break;
 		}
 	}
 
-	const records = await Product.find(options).sort(sortOpt).limit(limitVal).skip(offsetVal);
-	if (records) return res.status(HTTPStatusCode.OK).json({ result: records });
-	return res
-		.status(HTTPStatusCode.NOT_FOUND)
-		.json({ message: MESSAGE.NOT_FOUND });
+	const records = await Product.find(options)
+		.sort(sortOpt)
+		.limit(limitVal)
+		.skip(offsetVal);
+	if (records) return res.status(200).json({ result: {length: records.length, data: records} });
+	return res.status(404).json({ message: "Not found" });
 });
 
-// module.exports.countProducts = (query) => {
-// 	const query = req.query;
-// 	let options = {
-// 		price: {
-// 			$gte: query.min,
-// 			$lte: query.max,
-// 		},
-// 		name: {
-// 			$regex: query.search,
-// 		},
-// 	};
-
-// 	if (query.category > 0) {
-// 		options.category = query.category;
-// 	}
-
-// 	if (query.color > 0) {
-// 		options.color = query.color;
-// 	}
-
-// 	if (query.brand > 0) {
-// 		options.brand = query.brand;
-// 	}
-
-// 	const records = await Product.countDocuments(options);
-// 	if (records) return res.status(HTTPStatusCode.OK).json({ result: records });
-// 	return res
-// 		.status(HTTPStatusCode.NOT_FOUND)
-// 		.json({ message: MESSAGE.NOT_FOUND });
-// };
-
-module.exports.getProductById = catchAsync(async(req, res) => {
+module.exports.getProductById = catchAsync(async (req, res) => {
 	const id = req.params.id;
 	const records = await Product.findById(id);
-	if (records) return res.status(HTTPStatusCode.OK).json({ result: records });
-	return res
-		.status(HTTPStatusCode.NOT_FOUND)
-		.json({ message: MESSAGE.NOT_FOUND });
+	if (records) return res.status(200).json({ result: records });
+	return res.status(404).json({ message: "Not found" });
 });

@@ -24,71 +24,73 @@ module.exports.getOverview = catchAsync(async (req, res, next) => {
     const topSellingProducts = await axios({
         method: 'GET',
 		url: '/api/products/top-selling-products',
-    });
-    
+	});
+	
+	console.log(topSellingProducts.data)
+	
 	res.status(200).render('index', {
-		categories,
-		trendingProducts,
-		topSellingProducts,
+		categories: categories.data.result,
+		trendingProducts: trendingProducts.data.result.data,
+		bestSellerProducts: topSellingProducts.data.result,
 	});
 });
 
-// module.exports.getShopCategory = catchAsync(async (req, res, next) => {
-// 	const categories = await axios({
-// 		method: 'GET',
-// 		url: '/api/categories'
-// 	});
+module.exports.getShopCategory = catchAsync(async (req, res, next) => {
+	const categories = await axios({
+		method: 'GET',
+		url: '/api/categories'
+	});
 
-// 	const brands = await axios({
-// 		method: 'GET',
-// 		url: '/api/brands'
-// 	});
+	const brands = await axios({
+		method: 'GET',
+		url: '/api/brands'
+	});
     
-//     const trendingProducts = await axios({
-// 		method: 'GET',
-//         url: '/api/products/trending-products',
-//         data: {
-//             numItems: 12
-//         }
-//     });
-//     const colors = await axios({
-// 		method: 'GET',
-//         url: '/api/colors',
-//     });
-//     const products = await axios({
-//         method: 'GET',
-//         url: '/api/products/trending-products',
-//         data: req.query
-//     })
+    const trendingProducts = await axios({
+		method: 'GET',
+        url: '/api/products/trending-products',
+        data: {
+            numItems: 12
+        }
+    });
+    const colors = await axios({
+		method: 'GET',
+        url: '/api/colors',
+    });
+    const products = await axios({
+        method: 'GET',
+        url: '/api/products/trending-products',
+        data: req.query
+    })
     
-// 	const count = await productController.countProducts(req.query);
-// 	const topProduct1 = await productController.getTopProducts(3, 0);
-// 	const topProduct2 = await productController.getTopProducts(3, 3);
-// 	const topProduct3 = await productController.getTopProducts(3, 6);
-// 	const topProduct4 = await productController.getTopProducts(3, 9);
+	const count = await productController.countProducts(req.query);
+	const topProduct1 = await productController.getTopProducts(3, 0);
+	const topProduct2 = await productController.getTopProducts(3, 3);
+	const topProduct3 = await productController.getTopProducts(3, 6);
+	const topProduct4 = await productController.getTopProducts(3, 9);
 
-// 	res.status(200).render('category', {
-// 		query: req.query,
-// 		categories,
-// 		brands,
-// 		colors,
-// 		trendingProducts,
-// 		products,
-// 		banner: 'Shop Category',
-// 		bannerPage: 'Shop Category',
-// 		totalPages: Math.ceil(count / req.query.limit),
-// 		current: req.query.page,
-// 		pagination: {
-// 			page: parseInt(req.query.page),
-// 			limit: parseInt(req.query.limit),
-// 			totalRows: parseInt(count),
-// 		},
-// 		topProduct1,
-// 		topProduct2,
-// 		topProduct3,
-// 		topProduct4,
-// 	});
-// });
+	res.status(200).render('category', {
+		query: req.query,
+		categories,
+		brands,
+		colors,
+		trendingProducts,
+		products,
+		banner: 'Shop Category',
+		bannerPage: 'Shop Category',
+		totalPages: Math.ceil(count / req.query.limit),
+		current: req.query.page,
+		pagination: {
+			page: parseInt(req.query.page),
+			limit: parseInt(req.query.limit),
+			totalRows: parseInt(count),
+		},
+		topProduct1,
+		topProduct2,
+		topProduct3,
+		topProduct4,
+	});
+});
 
 // module.exports.getDetailProduct = catchAsync(async (req, res, next) => {
 // 	const product = await Product.findOne({ slug: req.params.slug });

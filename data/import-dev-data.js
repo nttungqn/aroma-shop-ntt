@@ -12,7 +12,7 @@ const bcrypt = require('bcryptjs');
 
 dotenv.config({ path: '.env' });
 
-const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
+const DB = process.env.DATABASE_ONLINE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD_ONLINE);
 
 mongoose
 	.connect(DB, {
@@ -48,7 +48,6 @@ const importData = async () => {
 	} catch (err) {
 		console.log(err);
 	}
-	process.exit();
 };
 
 // DELETE ALL DATA FROM DB
@@ -63,7 +62,6 @@ const deleteData = async () => {
 	} catch (err) {
 		console.log(err);
 	}
-	process.exit();
 };
 
 if (process.argv[2] === '--import') {
@@ -74,3 +72,4 @@ if (process.argv[2] === '--import') {
 	deleteData();
 	importData();
 }
+process.exit();

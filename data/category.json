@@ -1,11 +1,14 @@
 [
 	{
+		"_id": 1,
 		"name": "Women"
 	},
 	{
+		"_id": 2,
 		"name": "Men"
 	},
 	{
+		"_id": 3,
 		"name": "Kids"
 	}
 ]

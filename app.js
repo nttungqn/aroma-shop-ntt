@@ -10,6 +10,7 @@ const Handlebars = require('handlebars');
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 const paginate = require('express-handlebars-paginate');
 const helmet = require('helmet');
+const cors = require('cors');
 
 const productRouter = require('./routes/productRoutes')
 const userRouter = require('./routes/userRoutes');
@@ -29,6 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP headers
 app.use(helmet());
+
+app.use(cors());
 
 // set view engine
 const hbs = expressHandlebars.create({
