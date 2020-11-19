@@ -24,7 +24,7 @@ module.exports.getTopProducts = catchAsync(async (req, res) => {
 	if (records)
 		return res
 			.status(200)
-			.json({ result: { length: records.length, data: records } });
+			.json({ result: records });
 	return res.status(404).json({ message: "Not found" });
 });
 
@@ -36,105 +36,70 @@ module.exports.getTopSellingProducts = catchAsync(async (req, res) => {
 		.limit(numItems);
 
 	if (records)
-		return res
-			.status(200)
-			.json({ result: { length: records.length, data: records } });
+		return res.status(200).json({ result: records });
 	return res.status(404).json({ message: "Not found" });
 });
 
-module.exports.getAllProducts = catchAsync(async (req, res) => {
-	const query = req.query;
-
-	if (req.query.color == null || isNaN(req.query.color)) {
-		req.query.color = 0;
-	}
-
-	if (req.query.brand == null || isNaN(req.query.brand)) {
-		req.query.brand = 0;
-	}
-
-	if (req.query.category == null || isNaN(req.query.category)) {
-		req.query.category = 0;
-	}
-
-	if (req.query.min == null || isNaN(req.query.min)) {
-		req.query.min = 0;
-	}
-
-	if (req.query.max == null || isNaN(req.query.max)) {
-		req.query.max = 150;
-	}
-
-	if (req.query.sort == null) {
-		req.query.sort = "name";
-	}
-
-	if (req.query.page == null || isNaN(req.query.page)) {
-		req.query.page = 1;
-	}
-
-	if (req.query.limit == null || isNaN(req.query.limit)) {
-		req.query.limit = 9;
-	}
-
-	if (req.query.search == null || req.query.search.trim() == "") {
-		req.query.search = "";
-	}
-
+module.exports.getAll = catchAsync(async (req, res) => {
+	let query = req.query;
 	let options = {
 		price: {
-			$gte: req.query.min,
-			$lte: req.query.max,
+			$gte: query.min,
+			$lte: query.max,
 		},
 		name: {
-			$regex: req.query.search,
+			$regex: String(query.search),
 		},
 	};
 
 	let sortOpt = {};
 	let limitVal, offsetVal;
 
-	if (req.query.category > 0) {
-		options.category = req.query.category;
+	if (query.category > 0) {
+		options.category = query.category;
 	}
 
 	if (query.color > 0) {
-		options.color = req.query.color;
+		options.color = query.color;
 	}
 
 	if (query.brand > 0) {
-		options.brand = req.query.brand;
+		options.brand = query.brand;
 	}
 
 	if (query.limit > 0) {
-		limitVal = parseInt(req.query.limit);
-		offsetVal = parseInt(req.query.limit * (req.query.page - 1));
+		limitVal = parseInt(query.limit);
+		offsetVal = parseInt(query.limit * (query.page - 1));
 	}
 
-	if (req.query.sort) {
-		switch (req.query.sort) {
-			case "name":
-				sortOpt.name = "asc";
+	if (query.sort) {
+		switch (query.sort) {
+			case 'name':
+				sortOpt.name = 'asc';
 				break;
-			case "price":
-				sortOpt.price = "asc";
+			case 'price':
+				sortOpt.price = 'asc';
 				break;
-			case "ratingsAverage":
-				sortOpt.ratingsAverage = "asc";
+			case 'ratingsAverage':
+				sortOpt.ratingsAverage = 'asc';
 				break;
 			default:
-				sortOpt.name = "asc";
+				sortOpt.name = 'asc';
 				break;
 		}
 	}
 
-	const records = await Product.find(options)
-		.sort(sortOpt)
-		.limit(limitVal)
-		.skip(offsetVal);
-	if (records) return res.status(200).json({ result: {length: records.length, data: records} });
+	const records = await Product.find(options).sort(sortOpt);
+	const products = records.slice(offsetVal, offsetVal + limitVal);
+	const length = records.length;
+	if (records) return res.status(200).json({ result: {products, length}});
 	return res.status(404).json({ message: "Not found" });
 });
+
+module.exports.getTotalProduct = catchAsync(async (req, res) => {
+	const records = await Product.find();
+	return res.status(200).json({ result: records });
+})
 
 module.exports.getProductById = catchAsync(async (req, res) => {
 	const id = req.params.id;
