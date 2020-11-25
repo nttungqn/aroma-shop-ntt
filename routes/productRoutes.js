@@ -11,6 +11,6 @@ route.get("/trending-products", productController.getTrendingProduct);
 route.get("/top-selling-products", productController.getTopSellingProducts);
 route.get("/top-products", productController.getTopProducts);
 route.get("/total-product", productController.getTotalProduct);
-route.get("/:id", productController.getProductById);
+route.get("/:slug", productController.getProductBySlug);
 
 module.exports = route;

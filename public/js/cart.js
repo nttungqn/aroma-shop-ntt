@@ -1,3 +1,4 @@
+/** @format */
 $(document).ready(() => {
 	$('.add-to-cart').on('click', addToCart);
 });

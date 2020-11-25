@@ -1,3 +1,4 @@
+/** @format */
 let urlParams = new URLSearchParams(location.search);
 
 let params = {

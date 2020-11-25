@@ -1,10 +1,6 @@
 const axios = require('axios')
 
 const AppError = require('./../utils/AppError');
-const Product = require('./../models/productModel');
-const Brand = require('./../models/brandModel');
-const Color = require('./../models/colorModel');
-const Category = require('./../models/categoryModel');
 
 const catchAsync = require('./../utils/catchAsync');
 axios.defaults.baseURL = process.env.BASE_URL;
@@ -127,24 +123,31 @@ module.exports.getShopCategory = catchAsync(async (req, res, next) => {
 });
 
 module.exports.getDetailProduct = catchAsync(async (req, res, next) => {
-	const product = await Product.findOne({ slug: req.params.slug });
+	const slug = req.params.slug;
+	const product = (await axios({
+        method: 'GET',
+        url: `/api/products/${slug}`,
+	})).data.result;
 
 	if (!product) {
 		return next(new AppError('Not product found with that ID', 404));
 	}
 
-	const topProduct1 = await productController.getTopProducts(3, 0);
-	const topProduct2 = await productController.getTopProducts(3, 3);
-	const topProduct3 = await productController.getTopProducts(3, 6);
-	const topProduct4 = await productController.getTopProducts(3, 9);
-
+	const trendingProducts = (await axios({
+		method: 'GET',
+        url: '/api/products/trending-products',
+        data: {
+            numItems: 12
+        }
+	})).data.result;
+	
 	res.status(200).render('single-product', {
 		product,
 		bannerPage: 'Shop Single',
 		banner: 'Shop Single',
-		topProduct1,
-		topProduct2,
-		topProduct3,
-		topProduct4,
+		topProduct1: trendingProducts.slice(0, 3),
+		topProduct2: trendingProducts.slice(3, 6),
+		topProduct3: trendingProducts.slice(6, 9),
+		topProduct4: trendingProducts.slice(9, 12)
 	});
 });

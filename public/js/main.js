@@ -1,3 +1,5 @@
+/** @format */
+
 $(function () {
 	'use strict';
 

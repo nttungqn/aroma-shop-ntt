@@ -107,3 +107,11 @@ module.exports.getProductById = catchAsync(async (req, res) => {
 	if (records) return res.status(200).json({ result: records });
 	return res.status(404).json({ message: "Not found" });
 });
+
+module.exports.getProductBySlug = catchAsync(async (req, res) => {
+	const slug = req.params.slug;
+	const records = await Product.findOne({ slug: slug});
+	
+	if (records) return res.status(200).json({ result: records });
+	return res.status(404).json({ message: "Not found" });
+})
