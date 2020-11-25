@@ -85,7 +85,7 @@ app.use('/api/colors', colorRouter);
 app.use('/api/categories', categoryRouter);
 
 app.all('*', (req, res, next) => {
-	next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+	next(new AppError(`Can't find ${req.originalUrl} on this server!`, HTTPStatusCode.NOT_FOUND));
 });
 
 module.exports = app;
