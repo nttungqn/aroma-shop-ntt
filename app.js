@@ -58,6 +58,7 @@ app.use(
 	})
 );
 
+// run on dev environment
 app.use(morgan('dev'));
 
 app.use(compression());
@@ -72,9 +73,12 @@ app.use((req, res, next) => {
 	next();
 });
 
+// routing for view
 app.use('/', viewRouter);
 app.use('/cart', cartRouter);
 app.use('/users/', userRouter);
+
+// routing for api
 app.use('/api/products', productRouter);
 app.use('/api/brands', brandRouter);
 app.use('/api/colors', colorRouter);
