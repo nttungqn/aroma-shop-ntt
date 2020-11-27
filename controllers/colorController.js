@@ -1,6 +1,7 @@
 const Color = require('../models/colorModel');
 
 const catchAsync = require('../utils/catchAsync');
+const { HTTP_STATUS_CODE, ERROR_MESSAGE } = require('./base');
 
 module.exports.getAll = catchAsync(async (req, res) => {
 	const records = await Color.find();
