@@ -21,6 +21,7 @@ const colorRouter = require('./routes/colorRoutes');
 const Cart = require('./controllers/cartController');
 const cartRouter = require('./routes/cartRoutes');
 const AppError = require('./utils/AppError');
+const { HTTPStatusCode } = require('./controllers/base');
 
 const app = express();
 

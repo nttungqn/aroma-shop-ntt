@@ -127,6 +127,7 @@ module.exports.getProductById = catchAsync(async (req, res) => {
 
 module.exports.getProductBySlug = catchAsync(async (req, res) => {
     const slug = req.params.slug;
+    console.log(slug);
     const record = await Product.findOne({ slug: slug });
 
     if (!record)
