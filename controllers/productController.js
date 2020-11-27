@@ -1,7 +1,7 @@
 const Product = require('./../models/productModel');
 const AppError = require('./../utils/AppError');
 const catchAsync = require('./../utils/catchAsync');
-const { HTTP_STATUS_CODE, ERROR_MESSAGE } = require('./base');
+const { HTTPStatusCode, ErrorMessage } = require('./base');
 
 module.exports.getTrendingProduct = catchAsync(async (req, res) => {
     const numItems =
@@ -13,9 +13,9 @@ module.exports.getTrendingProduct = catchAsync(async (req, res) => {
 
     if (!records)
         return res
-            .status(HTTP_STATUS_CODE.NOT_FOUND)
-            .json({ message: ERROR_MESSAGE.NOT_FOUND });
-    return res.status(HTTP_STATUS_CODE.SUCCESS).json({ result: records });
+            .status(HTTPStatusCode.NOT_FOUND)
+            .json({ message: ErrorMessage.NOT_FOUND });
+    return res.status(HTTPStatusCode.SUCCESS).json({ result: records });
 });
 
 module.exports.getTopProducts = catchAsync(async (req, res) => {
@@ -26,9 +26,9 @@ module.exports.getTopProducts = catchAsync(async (req, res) => {
         .limit(numItems);
     if (!records)
         return res
-            .status(HTTP_STATUS_CODE.NOT_FOUND)
-            .json({ message: ERROR_MESSAGE.NOT_FOUND });
-    return res.status(HTTP_STATUS_CODE.SUCCESS).json({ result: records });
+            .status(HTTPStatusCode.NOT_FOUND)
+            .json({ message: ErrorMessage.NOT_FOUND });
+    return res.status(HTTPStatusCode.SUCCESS).json({ result: records });
 });
 
 module.exports.getTopSellingProducts = catchAsync(async (req, res) => {
@@ -40,9 +40,9 @@ module.exports.getTopSellingProducts = catchAsync(async (req, res) => {
 
     if (!records)
         return res
-            .status(HTTP_STATUS_CODE.NOT_FOUND)
-            .json({ message: ERROR_MESSAGE.NOT_FOUND });
-    return res.status(HTTP_STATUS_CODE.SUCCESS).json({ result: records });
+            .status(HTTPStatusCode.NOT_FOUND)
+            .json({ message: ErrorMessage.NOT_FOUND });
+    return res.status(HTTPStatusCode.SUCCESS).json({ result: records });
 });
 
 module.exports.getAll = catchAsync(async (req, res) => {
@@ -100,18 +100,18 @@ module.exports.getAll = catchAsync(async (req, res) => {
 	
 	if (!records)
         return res
-            .status(HTTP_STATUS_CODE.NOT_FOUND)
-            .json({ message: ERROR_MESSAGE.NOT_FOUND });
-    return res.status(HTTP_STATUS_CODE.SUCCESS).json({ result: { products, length } });
+            .status(HTTPStatusCode.NOT_FOUND)
+            .json({ message: ErrorMessage.NOT_FOUND });
+    return res.status(HTTPStatusCode.SUCCESS).json({ result: { products, length } });
 });
 
 module.exports.getTotalProduct = catchAsync(async (req, res) => {
     const records = await Product.find();
     if (!records)
         return res
-            .status(HTTP_STATUS_CODE.NOT_FOUND)
-            .json({ message: ERROR_MESSAGE.NOT_FOUND });
-    return res.status(HTTP_STATUS_CODE.SUCCESS).json({ result: records });
+            .status(HTTPStatusCode.NOT_FOUND)
+            .json({ message: ErrorMessage.NOT_FOUND });
+    return res.status(HTTPStatusCode.SUCCESS).json({ result: records });
 });
 
 module.exports.getProductById = catchAsync(async (req, res) => {
@@ -120,9 +120,9 @@ module.exports.getProductById = catchAsync(async (req, res) => {
 	
     if (!record)
         return res
-            .status(HTTP_STATUS_CODE.NOT_FOUND)
-            .json({ message: ERROR_MESSAGE.NOT_FOUND });
-    return res.status(HTTP_STATUS_CODE.SUCCESS).json({ result: record });
+            .status(HTTPStatusCode.NOT_FOUND)
+            .json({ message: ErrorMessage.NOT_FOUND });
+    return res.status(HTTPStatusCode.SUCCESS).json({ result: record });
 });
 
 module.exports.getProductBySlug = catchAsync(async (req, res) => {
@@ -131,7 +131,7 @@ module.exports.getProductBySlug = catchAsync(async (req, res) => {
 
     if (!record)
         return res
-            .status(HTTP_STATUS_CODE.NOT_FOUND)
-            .json({ message: ERROR_MESSAGE.NOT_FOUND });
-    return res.status(HTTP_STATUS_CODE.SUCCESS).json({ result: record });
+            .status(HTTPStatusCode.NOT_FOUND)
+            .json({ message: ErrorMessage.NOT_FOUND });
+    return res.status(HTTPStatusCode.SUCCESS).json({ result: record });
 });
