@@ -1,7 +1,10 @@
-const axios = require('axios')
+const axios = require('axios');
 
 const AppError = require('./../utils/AppError');
-
+const Category = require('../models/categoryModel');
+const Product = require('../models/productModel');
+const Brand = require('../models/brandModel');
+const Color = require('../models/colorModel');
 const catchAsync = require('./../utils/catchAsync');
 axios.defaults.baseURL = process.env.BASE_URL;
 
@@ -10,144 +13,80 @@ axios.defaults.baseURL = process.env.BASE_URL;
 // 3) Render that template using tour data from 1)
 
 exports.getOverview = catchAsync(async (req, res, next) => {
-	const categories = (await axios({
-		method: 'GET',
-		url: '/api/categories'
-	})).data.result;
-	const trendingProducts = (await axios({
-		method: 'GET',
-		url: '/api/products/trending-products',
-    })).data.result;
-    const topSellingProducts = (await axios({
-        method: 'GET',
-		url: '/api/products/top-selling-products',
-	})).data.result;
+    const categories = await Category.find();
 
-	res.status(200).render('index',{
-		categories: categories,
-		bestSellerProducts: topSellingProducts,
-		trendingProducts: trendingProducts,
-	});
+    const trendingProducts = await Product.find()
+        .sort({ ratingsAverage: 'desc' })
+        .limit(parseInt(process.env.TRENDING_PRODUCTS) || 8);
+
+    const topSellingProducts = await Product.find()
+        .sort({ ratingsQuantity: 'desc' })
+        .limit(parseInt(process.env.BEST_SELLER_PRODUCTS) || 8);
+
+    res.status(200).render('index', {
+        categories: categories,
+        bestSellerProducts: topSellingProducts,
+        trendingProducts: trendingProducts,
+    });
 });
 
 module.exports.getShopCategory = catchAsync(async (req, res, next) => {
-	const categories = (await axios({
-		method: 'GET',
-		url: '/api/categories'
-	})).data.result;
+    const categories = await Category.find();
 
-	const brands = (await axios({
-		method: 'GET',
-		url: '/api/brands'
-	})).data.result;
-    
-    const trendingProducts = (await axios({
-		method: 'GET',
-        url: '/api/products/trending-products',
-        data: {
-            numItems: 12
-        }
-	})).data.result;
-	
-    const colors = (await axios({
-		method: 'GET',
-        url: '/api/colors',
-	})).data.result;
-	
-	if (req.query.color == null || isNaN(req.query.color)) {
-		req.query.color = 0;
-	}
+    const brands = await Brand.find();
 
-	if (req.query.brand == null || isNaN(req.query.brand)) {
-		req.query.brand = 0;
-	}
+    const trendingProducts = await Product.find()
+        .sort({ ratingsAverage: 'desc' })
+        .limit(12);
 
-	if (req.query.category == null || isNaN(req.query.category)) {
-		req.query.category = 0;
-	}
+    const colors = await Color.find();
 
-	if (req.query.min == null || isNaN(req.query.min)) {
-		req.query.min = 0;
-	}
+    const products = await Product.find();
 
-	if (req.query.max == null || isNaN(req.query.max)) {
-		req.query.max = 150;
-	}
+	const length = products.length;
 
-	if (req.query.sort == null) {
-		req.query.sort = 'name';
-	}
-
-	if (req.query.page == null || isNaN(req.query.page)) {
-		req.query.page = 1;
-	}
-
-	if (req.query.limit == null || isNaN(req.query.limit)) {
-		req.query.limit = 9;
-	}
-
-	if (req.query.search == null || req.query.search.trim() == '') {
-		req.query.search = '';
-	}
-	
-    const productResult = (await axios({
-        method: 'GET',
-        url: '/api/products/',
-        params: req.query
-	})).data.result;
-	
-	const products = productResult.products;
-	const length = productResult.length;
-
-	res.status(200).render('category', {
-		query: req.query,
-		categories,
-		brands,
-		colors,
-		trendingProducts,
-		products,
-		banner: 'Shop Category',
-		bannerPage: 'Shop Category',
-		totalPages: Math.ceil(length / req.query.limit),
-		current: req.query.page,
-		pagination: {
-			page: parseInt(req.query.page),
-			limit: parseInt(req.query.limit),
-			totalRows: parseInt(length),
-		},
-		topProduct1: trendingProducts.slice(0, 3),
-		topProduct2: trendingProducts.slice(3, 6),
-		topProduct3: trendingProducts.slice(6, 9),
-		topProduct4: trendingProducts.slice(9, 12)
-	});
+    res.status(200).render('category', {
+        query: req.query,
+        categories,
+        brands,
+        colors,
+        trendingProducts,
+        products,
+        banner: 'Shop Category',
+        bannerPage: 'Shop Category',
+        totalPages: Math.ceil(length / req.query.limit),
+        current: req.query.page,
+        pagination: {
+            page: parseInt(req.query.page) || 1,
+            limit: parseInt(req.query.limit) || 9,
+            totalRows: parseInt(length),
+        },
+        topProduct1: trendingProducts.slice(0, 3),
+        topProduct2: trendingProducts.slice(3, 6),
+        topProduct3: trendingProducts.slice(6, 9),
+        topProduct4: trendingProducts.slice(9, 12),
+    });
 });
 
 module.exports.getDetailProduct = catchAsync(async (req, res, next) => {
-	const slug = req.params.slug;
-	const product = (await axios({
-        method: 'GET',
-        url: `/api/products/${slug}`,
-	})).data.result;
+    const slug = req.params.slug;
+    const product = await Product.findOne({ slug: slug });
 
-	if (!product) {
-		return next(new AppError('Not product found with that ID', 404));
-	}
+    if (!product) {
+        return next(new AppError('Not product found with that ID', 404));
+    }
 
-	const trendingProducts = (await axios({
-		method: 'GET',
-        url: '/api/products/trending-products',
-        data: {
-            numItems: 12
-        }
-	})).data.result;
-	
-	res.status(200).render('single-product', {
-		product,
-		bannerPage: 'Shop Single',
-		banner: 'Shop Single',
-		topProduct1: trendingProducts.slice(0, 3),
-		topProduct2: trendingProducts.slice(3, 6),
-		topProduct3: trendingProducts.slice(6, 9),
-		topProduct4: trendingProducts.slice(9, 12)
-	});
+    const trendingProducts = await Product.find()
+        .sort({ ratingsAverage: 'desc' })
+        .limit(12);
+
+    res.status(200).render('single-product', {
+        product,
+        bannerPage: 'Shop Single',
+        banner: 'Shop Single',
+        topProduct1: trendingProducts.slice(0, 3),
+        topProduct2: trendingProducts.slice(3, 6),
+        topProduct3: trendingProducts.slice(6, 9),
+        topProduct4: trendingProducts.slice(9, 12),
+    });
 });
