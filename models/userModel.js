@@ -34,7 +34,10 @@ const userSchema = new mongoose.Schema({
 	},
 	address: {
 		type: String
-	}
+	},
+	active: {
+		type: Boolean,
+		default: true,
 });
 
 const User = mongoose.model('User', userSchema, 'users');
