@@ -1,138 +1,143 @@
 const Product = require('./../models/productModel');
 const AppError = require('./../utils/AppError');
 const catchAsync = require('./../utils/catchAsync');
-const { HTTPStatusCode, ErrorMessage } = require('./base');
 
-module.exports.getTrendingProduct = catchAsync(async (req, res) => {
-    const numItems =
-        req.body.numItems || parseInt(process.env.TRENDING_PRODUCTS) || 8;
+module.exports.getTrendingProduct = (numItems) => {
+	// treding products
+	return new Promise((resolve, reject) => {
+		Product.find()
+			.sort({ ratingsAverage: 'desc' })
+			.limit(numItems)
+			.then((data) => {
+				resolve(data);
+			})
+			.catch((err) => reject(new Error(err)));
+	});
+};
 
-    const records = await Product.find()
-        .sort({ ratingsAverage: 'desc' })
-        .limit(numItems);
+module.exports.getTopProducts = (numItems, skip) => {
+	return new Promise((resolve, reject) => {
+		Product.find()
+			.sort({ ratingsAverage: 'desc' })
+			.limit(numItems)
+			.skip(skip)
+			.then((data) => {
+				resolve(data);
+			})
+			.catch((err) => reject(new Error(err)));
+	});
+};
 
-    if (!records)
-        return res
-            .status(HTTPStatusCode.NOT_FOUND)
-            .json({ message: ErrorMessage.NOT_FOUND });
-    return res.status(HTTPStatusCode.SUCCESS).json({ result: records });
-});
+module.exports.getBestSellerProduct = (numItems) => {
+	return new Promise((resolve, reject) => {
+		Product.find()
+			.sort({ ratingsQuantity: 'desc' })
+			.limit(numItems)
+			.then((data) => {
+				resolve(data);
+			})
+			.catch((err) => reject(new Error(err)));
+	});
+};
 
-module.exports.getTopProducts = catchAsync(async (req, res) => {
-    const numItems = parseInt(process.env.TRENDING_PRODUCTS) || 8;
+module.exports.getAll = (query) => {
+	return new Promise((resolve, reject) => {
+		let options = {
+			price: {
+				$gte: query.min,
+				$lte: query.max,
+			},
+			name: {
+				$regex: query.search,
+			},
+		};
 
-    const records = await Product.find()
-        .sort({ ratingsAverage: 'desc' })
-        .limit(numItems);
-    if (!records)
-        return res
-            .status(HTTPStatusCode.NOT_FOUND)
-            .json({ message: ErrorMessage.NOT_FOUND });
-    return res.status(HTTPStatusCode.SUCCESS).json({ result: records });
-});
+		let sortOpt = {};
+		let limitVal, offsetVal;
 
-module.exports.getTopSellingProducts = catchAsync(async (req, res) => {
-    const numItems = parseInt(process.env.BEST_SELLER_PRODUCTS) || 8;
+		if (query.category > 0) {
+			options.category = query.category;
+		}
 
-    const records = await Product.find()
-        .sort({ ratingsQuantity: 'desc' })
-        .limit(numItems);
+		if (query.color > 0) {
+			options.color = query.color;
+		}
 
-    if (!records)
-        return res
-            .status(HTTPStatusCode.NOT_FOUND)
-            .json({ message: ErrorMessage.NOT_FOUND });
-    return res.status(HTTPStatusCode.SUCCESS).json({ result: records });
-});
+		if (query.brand > 0) {
+			options.brand = query.brand;
+		}
 
-module.exports.getAll = catchAsync(async (req, res) => {
-    let query = req.query;
-    let options = {
-        price: {
-            $gte: query.min,
-            $lte: query.max,
-        },
-        name: {
-            $regex: String(query.search),
-        },
-    };
+		if (query.limit > 0) {
+			limitVal = parseInt(query.limit);
+			offsetVal = parseInt(query.limit * (query.page - 1));
+		}
 
-    let sortOpt = {};
-    let limitVal, offsetVal;
+		if (query.sort) {
+			switch (query.sort) {
+				case 'name':
+					sortOpt.name = 'asc';
+					break;
+				case 'price':
+					sortOpt.price = 'asc';
+					break;
+				case 'ratingsAverage':
+					sortOpt.ratingsAverage = 'asc';
+					break;
+				default:
+					sortOpt.name = 'asc';
+					break;
+			}
+		}
 
-    if (query.category > 0) {
-        options.category = query.category;
-    }
+		Product.find(options)
+			.sort(sortOpt)
+			.limit(limitVal)
+			.skip(offsetVal)
+			.then((data) => {
+				resolve(data);
+			})
+			.catch((err) => reject(new AppError(err.message, 404)));
+	});
+};
 
-    if (query.color > 0) {
-        options.color = query.color;
-    }
+module.exports.countProducts = (query) => {
+	return new Promise((resolve, reject) => {
+		let options = {
+			price: {
+				$gte: query.min,
+				$lte: query.max,
+			},
+			name: {
+				$regex: query.search,
+			},
+		};
 
-    if (query.brand > 0) {
-        options.brand = query.brand;
-    }
+		if (query.category > 0) {
+			options.category = query.category;
+		}
 
-    if (query.limit > 0) {
-        limitVal = parseInt(query.limit);
-        offsetVal = parseInt(query.limit * (query.page - 1));
-    }
+		if (query.color > 0) {
+			options.color = query.color;
+		}
 
-    if (query.sort) {
-        switch (query.sort) {
-            case 'name':
-                sortOpt.name = 'asc';
-                break;
-            case 'price':
-                sortOpt.price = 'asc';
-                break;
-            case 'ratingsAverage':
-                sortOpt.ratingsAverage = 'asc';
-                break;
-            default:
-                sortOpt.name = 'asc';
-                break;
-        }
-    }
+		if (query.brand > 0) {
+			options.brand = query.brand;
+		}
 
-    const records = await Product.find(options).sort(sortOpt);
-    const products = records.slice(offsetVal, offsetVal + limitVal);
-	const length = records.length;
-	
-	if (!records)
-        return res
-            .status(HTTPStatusCode.NOT_FOUND)
-            .json({ message: ErrorMessage.NOT_FOUND });
-    return res.status(HTTPStatusCode.SUCCESS).json({ result: { products, length } });
-});
+		Product.countDocuments(options)
+			.then((data) => {
+				resolve(data);
+			})
+			.catch((err) => reject(new AppError(err.message, 404)));
+	});
+};
 
-module.exports.getTotalProduct = catchAsync(async (req, res) => {
-    const records = await Product.find();
-    if (!records)
-        return res
-            .status(HTTPStatusCode.NOT_FOUND)
-            .json({ message: ErrorMessage.NOT_FOUND });
-    return res.status(HTTPStatusCode.SUCCESS).json({ result: records });
-});
-
-module.exports.getProductById = catchAsync(async (req, res) => {
-    const id = req.params.id;
-	const record = await Product.findById(id);
-	
-    if (!record)
-        return res
-            .status(HTTPStatusCode.NOT_FOUND)
-            .json({ message: ErrorMessage.NOT_FOUND });
-    return res.status(HTTPStatusCode.SUCCESS).json({ result: record });
-});
-
-module.exports.getProductBySlug = catchAsync(async (req, res) => {
-    const slug = req.params.slug;
-    console.log(slug);
-    const record = await Product.findOne({ slug: slug });
-
-    if (!record)
-        return res
-            .status(HTTPStatusCode.NOT_FOUND)
-            .json({ message: ErrorMessage.NOT_FOUND });
-    return res.status(HTTPStatusCode.SUCCESS).json({ result: record });
-});
+module.exports.getProductById = (id) => {
+	return new Promise((resolve, reject) => {
+		Product.findById(id)
+			.then((data) => {
+				resolve(data);
+			})
+			.catch((err) => reject(new Error(err)));
+	});
+};

@@ -14,14 +14,9 @@ const paginate = require('express-handlebars-paginate');
 
 const userRouter = require('./routes/userRoutes');
 const viewRouter = require('./routes/viewRoutes');
-const categoryRouter = require('./routes/categoryRoutes');
-const productRouter = require('./routes/productRoutes');
-const brandRouter = require('./routes/brandRoutes');
-const colorRouter = require('./routes/colorRoutes');
 const Cart = require('./controllers/cartController');
 const cartRouter = require('./routes/cartRoutes');
 const AppError = require('./utils/AppError');
-const { HTTPStatusCode } = require('./controllers/base');
 
 const app = express();
 
@@ -59,7 +54,6 @@ app.use(
 	})
 );
 
-// run on dev environment
 app.use(morgan('dev'));
 
 app.use(compression());
@@ -74,19 +68,12 @@ app.use((req, res, next) => {
 	next();
 });
 
-// routing for view
 app.use('/', viewRouter);
 app.use('/cart', cartRouter);
 app.use('/users/', userRouter);
 
-// routing for api
-app.use('/api/products', productRouter);
-app.use('/api/brands', brandRouter);
-app.use('/api/colors', colorRouter);
-app.use('/api/categories', categoryRouter);
-
 app.all('*', (req, res, next) => {
-	next(new AppError(`Can't find ${req.originalUrl} on this server!`, HTTPStatusCode.NOT_FOUND));
+	next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
 module.exports = app;

@@ -1,12 +1,11 @@
+/** @format */
+
+// review / rating / createdAt / ref to shoes / ref to user
 const mongoose = require('mongoose');
 const Product = require('./productModel');
 
 const reviewSchema = new mongoose.Schema(
 	{
-		_id: {
-			type: Number,
-			required: true
-		},
 		review: {
 			type: String,
 			required: [true, 'Review can not be empty!'],
@@ -21,12 +20,12 @@ const reviewSchema = new mongoose.Schema(
 			default: Date.now,
 		},
 		product: {
-			type: mongoose.Schema.ObjectId,
+			type: Integer,
 			ref: 'Product',
 			required: [true, 'Review must belong to a shoes.'],
 		},
 		user: {
-			type: mongoose.Schema.ObjectId,
+			type: Integer,
 			ref: 'User',
 			required: [true, 'Review must belong to a user'],
 		},

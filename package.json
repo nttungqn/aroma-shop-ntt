@@ -1,15 +1,11 @@
 {
-	"name": "ptudw-cq2018_31",
+	"name": "shop",
 	"version": "1.0.0",
 	"description": "",
-	"main": "app.js",
+	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "nodemon server.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/nttungqn/ptudw-cq2018_32.git"
+		"start": "node server.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "",
 	"license": "ISC",
@@ -20,26 +16,19 @@
 		"body-parser": "^1.19.0",
 		"compression": "^1.7.4",
 		"cookie-parser": "^1.4.5",
-		"crypto": "^1.0.1",
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"express-handlebars": "^5.1.0",
 		"express-handlebars-paginate": "^1.0.3",
 		"express-session": "^1.17.1",
-		"handlebars": "^4.7.6",
 		"mongoose": "^5.10.2",
 		"morgan": "^1.10.0",
-		"nodemailer": "^6.4.16",
 		"nodemon": "^2.0.4",
 		"passport": "^0.4.1",
 		"passport-local": "^1.0.0",
 		"pug": "^3.0.0",
 		"slugify": "^1.4.5",
-		"validator": "^13.1.17"
+		"handlebars": "^4.7.6"
 	},
-	"devDependencies": {},
-	"bugs": {
-		"url": "https://github.com/nttungqn/ptudw-cq2018_32/issues"
-	},
-	"homepage": "https://github.com/nttungqn/ptudw-cq2018_32#readme"
+	"devDependencies": {}
 }
