@@ -61,7 +61,6 @@ router.post('/login', (req, res) => {
 		.getUserByEmail(email)
 		.then((user) => {
 			if (user) {
-				console.log(password);
 				if (userController.comparePassword(password, user.password)) {
 					req.session.user = user;
 					if (req.session.returnURL) {
@@ -90,7 +89,7 @@ router.get('/logout', (req, res, next) => {
 		if (err) {
 			return next(err);
 		}
-		return res.redirect('/users/login');
+		return res.redirect('/products');
 	});
 });
 module.exports = router;

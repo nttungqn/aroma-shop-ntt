@@ -14,6 +14,7 @@ const Comment = require('./../models/commentModel');
 // 1) Get tour data from collection
 // 2) Build template
 // 3) Render that template using tour data from 1)
+const COMMENTS_PER_PAGE = 3;
 
 module.exports.getOverview = catchAsync(async (req, res, next) => {
 	const categories = await categoryController.getAll();
@@ -106,7 +107,18 @@ module.exports.getDetailProduct = catchAsync(async (req, res, next) => {
 		return next(new AppError('Not product found with that ID', 404));
 	}
 	
-	const comments = await Comment.find({productId: req.params.id});
+	const totalComments = await Comment.find({productId: req.params.id});
+	const count = totalComments.length > 0 ? totalComments.length : undefined;
+	
+	if (req.query.page == null || isNaN(req.query.page)) {
+		req.query.page = 1;
+	}
+	
+	if (req.query.limit == null || isNaN(req.query.limit)) {
+		req.query.limit = COMMENTS_PER_PAGE;
+	}
+	const comments = await commentController.getCommentByProductId(req.query, req.params.id);
+	
 	const topProduct1 = await productController.getTopProducts(3, 0);
 	const topProduct2 = await productController.getTopProducts(3, 3);
 	const topProduct3 = await productController.getTopProducts(3, 6);
@@ -121,5 +133,11 @@ module.exports.getDetailProduct = catchAsync(async (req, res, next) => {
 		topProduct2,
 		topProduct3,
 		topProduct4,
+		current: req.query.page,
+		pagination: {
+			page: parseInt(req.query.page),
+			limit: parseInt(req.query.limit),
+			totalRows: parseInt(count),
+		},
 	});
 });

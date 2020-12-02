@@ -7,6 +7,10 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		require: [true, 'Please provide a fullname'],
 	},
+	avatar: {
+		type: String,
+		default: 'avatar-1.png',
+	},
 	email: {
 		type: String,
 		unique: true,
