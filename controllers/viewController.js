@@ -3,11 +3,13 @@ const catchAsync = require('./../utils/catchAsync');
 const productController = require('./../controllers/productController');
 const brandController = require('./../controllers/brandController');
 const categoryController = require('./../controllers/categoryController');
+const commentController = require('./../controllers/commentController');
 const AppError = require('./../utils/AppError');
 const Product = require('./../models/productModel');
 const Brand = require('./../models/brandModel');
 const Color = require('./../models/colorModel');
 const Category = require('./../models/categoryModel');
+const Comment = require('./../models/commentModel');
 
 // 1) Get tour data from collection
 // 2) Build template
@@ -98,12 +100,13 @@ module.exports.getShopCategory = catchAsync(async (req, res, next) => {
 });
 
 module.exports.getDetailProduct = catchAsync(async (req, res, next) => {
-	const product = await Product.findOne({ slug: req.params.slug });
-
+	const product = await Product.findOne({ _id: req.params.id });
+	
 	if (!product) {
 		return next(new AppError('Not product found with that ID', 404));
 	}
-
+	
+	const comments = await Comment.find({productId: req.params.id});
 	const topProduct1 = await productController.getTopProducts(3, 0);
 	const topProduct2 = await productController.getTopProducts(3, 3);
 	const topProduct3 = await productController.getTopProducts(3, 6);
@@ -111,6 +114,7 @@ module.exports.getDetailProduct = catchAsync(async (req, res, next) => {
 
 	res.status(200).render('single-product', {
 		product,
+		comments,
 		bannerPage: 'Shop Single',
 		banner: 'Shop Single',
 		topProduct1,

@@ -1,13 +1,9 @@
 /** @format */
 
 const mongoose = require('mongoose');
-const slugify = require('slugify');
 
 const productSchema = new mongoose.Schema(
 	{
-		_id: {
-			type: Number,
-		},
 		name: {
 			type: String,
 			trim: true,
@@ -17,7 +13,6 @@ const productSchema = new mongoose.Schema(
 			maxlength: [50, 'A shoes name must have less or equal than 50 characters'],
 			minlength: [3, 'A shoes name must have more or equal than 6 characters'],
 		},
-		slug: String,
 		ratingsAverage: {
 			type: Number,
 			default: 4.5,
@@ -45,19 +40,19 @@ const productSchema = new mongoose.Schema(
 			type: String,
 			required: [true, 'A shoes must have a image cover'],
 		},
-		brand: {
-			type: Number,
+		brandId: {
+			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Brand',
 			required: [true, 'Product must belong to a brand'],
 		},
-		category: {
-			type: Number,
+		categoryId: {
+			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Category',
 			required: [true, 'Product must belong to a category'],
 		},
-		color: [
+		colorId: [
 			{
-				type: Number,
+				type: mongoose.Schema.Types.ObjectId,
 				ref: 'Category',
 				required: [true],
 			},
@@ -72,11 +67,6 @@ const productSchema = new mongoose.Schema(
 
 productSchema.index({ name: 'text' });
 // productSchema.index({ '$**': 'text' });
-
-productSchema.pre('save', function (next) {
-	this.slug = slugify(this.name, { lower: true });
-	next();
-});
 
 productSchema.pre(/^find/, function (next) {
 	this.populate({

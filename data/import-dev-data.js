@@ -24,12 +24,12 @@ mongoose
 	.then(() => console.log('DB connection successful!'));
 
 // READ JSON FILE
+const comments = JSON.parse(fs.readFileSync(`${__dirname}/comments.json`, 'utf-8'))
 const categories = JSON.parse(fs.readFileSync(`${__dirname}/categories.json`, 'utf-8'));
-const users = JSON.parse(fs.readFileSync(`${__dirname}/users.json`, 'utf-8'));
 const brands = JSON.parse(fs.readFileSync(`${__dirname}/brands.json`, 'utf-8'));
 const colors = JSON.parse(fs.readFileSync(`${__dirname}/colors.json`, 'utf-8'));
+const users = JSON.parse(fs.readFileSync(`${__dirname}/users.json`, 'utf-8'));
 const products = JSON.parse(fs.readFileSync(`${__dirname}/products.json`, 'utf-8'));
-const comments = JSON.parse(fs.readFileSync(`${__dirname}/comments.json`, 'utf-8'))
 
 // IMPORT DATA INTO DB
 const importData = async () => {

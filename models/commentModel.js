@@ -2,28 +2,24 @@ const mongoose = require("mongoose");
 
 const commentSchema = new mongoose.Schema(
 	{
-		_id: {
-            type: Number,
-            required: true,
-		},
 		message: {
 			type: String,
 			required: [true, "Comment not empty"],
 		},
-		user: {
-			type: Number,
+		userId: {
+			type: mongoose.Schema.Types.ObjectId,
 			ref: "User",
 			required: [true, "Comment must belong ti a user"],
 		},
-		product: {
-			type: Number,
+		productId: {
+			type: mongoose.Schema.Types.ObjectId,
 			ref: "Product",
 			required: [true, "Comment must belong a product"],
 		},
-		parentComment: {
-			type: Number,
+		parentCommentId: {
+			type: mongoose.Schema.Types.ObjectId,
 			ref: "Comment",
-			required: false,
+			default: undefined,
 		},
 		createdAt: {
 			type: Date,
@@ -35,6 +31,21 @@ const commentSchema = new mongoose.Schema(
 		toObject: { virtuals: true },
 	}
 );
+
+commentSchema.pre(/^find/, function (next) {
+	this.populate({
+		path: 'userId',
+		select: 'name avatar',
+	});
+
+
+	this.populate({
+		path: 'parentCommentId',
+		select: 'message',
+	});
+
+	next();
+});
 
 const Comment = mongoose.model("Comment", commentSchema);
 

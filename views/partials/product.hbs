@@ -3,7 +3,7 @@
         <img class="card-img" src="/img/products/{{this.imageCover}}" alt="{{this.name}}" />
         <ul class="card-product__imgOverlay">
             <li>
-                <button onclick="location.href='/products/{{this.slug}}'"><i class="ti-search"></i></button>
+                <button onclick="location.href='/products/{{this._id}}'"><i class="ti-search"></i></button>
             </li>
             <li>
                 <button class="add-to-cart" data-id="{{_id}}" onclick=""><i class="ti-shopping-cart"></i></button>
@@ -15,7 +15,7 @@
     </div>
     <div class="card-body">
         <p>{{this.brand.name}}</p>
-        <h4 class="card-product__title"><a href="/products/{{this.slug}}">{{this.name}}</a></h4>
+        <h4 class="card-product__title"><a href="/products/{{this._id}}">{{this.name}}</a></h4>
         <p class="card-product__price">${{this.price}}</p>
     </div>
 </div>

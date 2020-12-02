@@ -1,122 +1,122 @@
 [
-	{
-		"_id": 1,
-		"fullname": "Nguyen Thanh Tung",
-		"email": "ntt@hcmus.com",
-		"password": "user123"
-	},
-	{
-		"_id": 2,
-		"fullname": "Brennan Rubertis",
-		"email": "brubertis1@ucsd.edu",
-		"pasword": "$2y$10$CMGC0G8CqgheyKnbkEeCeuVuaHd2JuiOv1aiQt/v5TfJ7pGHwUU02"
-	},
-	{
-		"_id": 3,
-		"fullname": "Cthrine Reeme",
-		"email": "creeme2@cdbaby.com",
-		"pasword": "E9cOGOuQ"
-	},
-	{
-		"_id": 4,
-		"fullname": "Crichton Cornford",
-		"email": "ccornford3@prnewswire.com",
-		"pasword": "GbeIup"
-	},
-	{
-		"_id": 5,
-		"fullname": "Farr Lively",
-		"email": "flively4@eepurl.com",
-		"pasword": "oNe8ttdf"
-	},
-	{
-		"_id": 6,
-		"fullname": "Janean Titchen",
-		"email": "jtitchen5@instagram.com",
-		"pasword": "CcElC9"
-	},
-	{
-		"_id": 7,
-		"fullname": "Cary Ketch",
-		"email": "cketch6@wunderground.com",
-		"pasword": "osc13bFoIgp"
-	},
-	{
-		"_id": 8,
-		"fullname": "Kayle Pear",
-		"email": "kpear7@japanpost.jp",
-		"pasword": "UfcARD9duZ"
-	},
-	{
-		"_id": 9,
-		"fullname": "Barris Theodoris",
-		"email": "btheodoris8@zimbio.com",
-		"pasword": "QnaafK6"
-	},
-	{
-		"_id": 10,
-		"fullname": "Laraine Kliesl",
-		"email": "lkliesl9@multiply.com",
-		"pasword": "CyLU8Bd"
-	},
-	{
-		"_id": 11,
-		"fullname": "Annette Semaine",
-		"email": "asemainea@washingtonpost.com",
-		"pasword": "rP0j1Av9T"
-	},
-	{
-		"_id": 12,
-		"fullname": "Jimmy Extal",
-		"email": "jextalb@msn.com",
-		"pasword": "nwRiqvK"
-	},
-	{
-		"_id": 13,
-		"fullname": "Michal Meert",
-		"email": "mmeertc@mozilla.com",
-		"pasword": "TkAJMZ"
-	},
-	{
-		"_id": 14,
-		"fullname": "Kristal Musprat",
-		"email": "kmuspratd@businessinsider.com",
-		"pasword": "BFFDqtSgEY"
-	},
-	{
-		"_id": 15,
-		"fullname": "Clari Shewry",
-		"email": "cshewrye@ameblo.jp",
-		"pasword": "1Nxx6KLv0"
-	},
-	{
-		"_id": 16,
-		"fullname": "Jamaal Thomasson",
-		"email": "jthomassonf@ted.com",
-		"pasword": "F571tLe"
-	},
-	{
-		"_id": 17,
-		"fullname": "Lindy Bysaker",
-		"email": "lbysakerg@sogou.com",
-		"pasword": "pcvJ4Un"
-	},
-	{
-		"_id": 18,
-		"fullname": "Sherm Brownsall",
-		"email": "sbrownsallh@skyrock.com",
-		"pasword": "6KPp3s4oTR"
-	},
-	{
-		"_id": 19,
-		"fullname": "Hildy Menham",
-		"email": "hmenhami@shop-pro.jp",
-		"pasword": "K7L1iRLzduf0"
-	},
-	{
-		"_id": 20,
-		"fullname": "Lorena Lidgett",
-		"email": "llidgettj@cdbaby.com",
-		"pasword": "GdV7bDfi"
-	}
+    {
+        "fullname": "Thanh Tung Nguyen",
+        "email": "ntt@hcmus.com",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-2.png"
+    },
+    {
+        "fullname": "Keen Jevons",
+        "email": "kjevons1@twitpic.com",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-3.png"
+    },
+    {
+        "fullname": "Zak O'Reilly",
+        "email": "zoreilly2@google.co.jp",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-3.png"
+    },
+    {
+        "fullname": "Erny Amor",
+        "email": "eamor3@gov.uk",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-1.png"
+    },
+    {
+        "fullname": "Dyna Croisier",
+        "email": "dcroisier4@ucoz.com",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-3.png"
+    },
+    {
+        "fullname": "Kaylyn Bone",
+        "email": "kbone5@blogtalkradio.com",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-2.png"
+    },
+    {
+        "fullname": "Peder Inchan",
+        "email": "pinchan6@technorati.com",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-2.png"
+    },
+    {
+        "fullname": "Ade Edward",
+        "email": "aedward7@photobucket.com",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-1.png"
+    },
+    {
+        "fullname": "Adair Brewett",
+        "email": "abrewett8@msu.edu",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-1.png"
+    },
+    {
+        "fullname": "Stillmann Scholz",
+        "email": "sscholz9@dyndns.org",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-2.png"
+    },
+    {
+        "fullname": "Sibley Bellfield",
+        "email": "sbellfielda@tinyurl.com",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-2.png"
+    },
+    {
+        "fullname": "Liana Kendrew",
+        "email": "lkendrewb@go.com",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-1.png"
+    },
+    {
+        "fullname": "Livvy Gawler",
+        "email": "lgawlerc@google.com.hk",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-2.png"
+    },
+    {
+        "fullname": "Benoit Dodridge",
+        "email": "bdodridged@elegantthemes.com",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-2.png"
+    },
+    {
+        "fullname": "Pieter Mulvaney",
+        "email": "pmulvaneye@tuttocitta.it",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-1.png"
+    },
+    {
+        "fullname": "Alex Curling",
+        "email": "acurlingf@hostgator.com",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-1.png"
+    },
+    {
+        "fullname": "Connie Courteney",
+        "email": "ccourteneyg@hubpages.com",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-1.png"
+    },
+    {
+        "fullname": "Camile Oleshunin",
+        "email": "coleshuninh@loc.gov",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-3.png"
+    },
+    {
+        "fullname": "Julieta Hallet",
+        "email": "jhalleti@gnu.org",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-3.png"
+    },
+    {
+        "fullname": "Valentine Rutgers",
+        "email": "vrutgersj@discuz.net",
+        "password": "user123",
+        "avatar": "img/avatars/avatar-2.png"
+    }
 ]
