@@ -41,18 +41,18 @@ const productSchema = new mongoose.Schema(
 			required: [true, 'A shoes must have a image cover'],
 		},
 		brandId: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: Number,
 			ref: 'Brand',
 			required: [true, 'Product must belong to a brand'],
 		},
 		categoryId: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: Number,
 			ref: 'Category',
 			required: [true, 'Product must belong to a category'],
 		},
 		colorId: [
 			{
-				type: mongoose.Schema.Types.ObjectId,
+				type: Number,
 				ref: 'Category',
 				required: [true],
 			},
@@ -65,22 +65,22 @@ const productSchema = new mongoose.Schema(
 	}
 );
 
-productSchema.index({ name: 'text' });
-// productSchema.index({ '$**': 'text' });
+// productSchema.index({ name: 'text' });
+// // productSchema.index({ '$**': 'text' });
 
 productSchema.pre(/^find/, function (next) {
 	this.populate({
-		path: 'brand',
+		path: 'brandId',
 		select: 'name',
 	});
 
 	this.populate({
-		path: 'category:',
+		path: 'categoryId:',
 		select: 'name',
 	});
 
 	this.populate({
-		path: 'color',
+		path: 'colorId',
 		select: 'name',
 	});
 

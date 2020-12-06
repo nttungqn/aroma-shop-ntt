@@ -3,11 +3,11 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-	fullname: {
+	name: {
 		type: String,
 		require: [true, 'Please provide a fullname'],
 	},
-	avatar: {
+	image: {
 		type: String,
 		default: 'avatar-1.png',
 	},
@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		require: [true, 'Please provide a password'],
 	},
+	address: { 
+		type: String,
+		default: '225 Nguyen Van Cu Street',
+	}
 });
 
 const User = mongoose.model('User', userSchema, 'users');

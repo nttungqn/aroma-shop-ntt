@@ -1,21 +1,21 @@
 [
   {
-    "_id": "5fc662d402da880a5eb62315",
+    "_id": 1,
     "name": "Blue",
     "__v": 0
   },
   {
-    "_id": "5fc662d402da880a5eb62314",
+    "_id": 2,
     "name": "Yellow",
     "__v": 0
   },
   {
-    "_id": "5fc662d402da880a5eb62313",
+    "_id": 3,
     "name": "Red",
     "__v": 0
   },
   {
-    "_id": "5fc662d402da880a5eb62316",
+    "_id": 4,
     "name": "Green",
     "__v": 0
   }

@@ -56,15 +56,15 @@ module.exports.getAll = (query) => {
 		let limitVal, offsetVal;
 
 		if (query.category > 0) {
-			options.category = query.category;
+			options.categoryId = query.category;
 		}
 
 		if (query.color > 0) {
-			options.color = query.color;
+			options.colorId = query.color;
 		}
 
 		if (query.brand > 0) {
-			options.brand = query.brand;
+			options.brandId = query.brand;
 		}
 
 		if (query.limit > 0) {

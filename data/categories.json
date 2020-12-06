@@ -1,17 +1,20 @@
 [
     {
-        "_id": "5fc662d402da880a5eb62318",
+        "_id": 1,
         "name": "Men",
+        "image": "category-1.png",
         "__v": 0
     },
     {
-        "_id": "5fc662d402da880a5eb62319",
+        "_id": 2,
         "name": "Kids",
+        "image": "category-2.png",
         "__v": 0
     },
     {
-        "_id": "5fc662d402da880a5eb62317",
+        "_id": 3,
         "name": "Women",
+        "image": "category-2.png",
         "__v": 0
     }
 ]

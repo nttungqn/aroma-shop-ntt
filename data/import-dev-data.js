@@ -11,17 +11,20 @@ const Category = require('../models/categoryModel');
 const Comment = require('../models/commentModel');
 const bcrypt = require('bcryptjs');
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: './.env' });
 
-const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
+const DB = process.env.DATABASE_ONLINE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD_ONLINE);
 
 mongoose
 	.connect(DB, {
 		useNewUrlParser: true,
-		useCreateIndex: true,
 		useFindAndModify: false,
+		useUnifiedTopology: true,
 	})
-	.then(() => console.log('DB connection successful!'));
+	.then((con) => {
+		console.log('DB connection successfull');
+	});
+
 
 // READ JSON FILE
 const comments = JSON.parse(fs.readFileSync(`${__dirname}/comments.json`, 'utf-8'))
@@ -37,7 +40,7 @@ const importData = async () => {
 		await Brand.create(brands);
 		await Color.create(colors);
 		await Category.create(categories);
-		await Product.create(products);
+		// await Product.create(products);
 		await Comment.create(comments);
 		let password = 'user123';
 		for (let i in users) {

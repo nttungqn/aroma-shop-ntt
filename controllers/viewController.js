@@ -34,38 +34,31 @@ module.exports.getShopCategory = catchAsync(async (req, res, next) => {
 	const trendingProducts = await productController.getTrendingProduct(12);
 	const colors = await Color.find();
 
-	if (req.query.color == null || isNaN(req.query.color)) {
-		req.query.color = 0;
-	}
+	colorParam = parseInt(req.query.color, 10);
+	req.query.color = isNaN(colorParam) ? 0 : colorParam;
 
-	if (req.query.brand == null || isNaN(req.query.brand)) {
-		req.query.brand = 0;
-	}
+	brandParam = parseInt(req.query.brand, 10);
+	req.query.brand = isNaN(brandParam) ? 0 : brandParam;
 
-	if (req.query.category == null || isNaN(req.query.category)) {
-		req.query.category = 0;
-	}
+	categoryParam = parseInt(req.query.category, 10);
+	req.query.category = isNaN(categoryParam) ? 0 : categoryParam;
 
-	if (req.query.min == null || isNaN(req.query.min)) {
-		req.query.min = 0;
-	}
+	minParam = parseInt(req.query.min, 10);
+	req.query.min = isNaN(minParam) ? 0 : minParam;
 
-	if (req.query.max == null || isNaN(req.query.max)) {
-		req.query.max = 150;
-	}
+	maxParam = parseInt(req.query.max, 10);
+	req.query.max = isNaN(maxParam) ? 150 : maxParam;
 
+	
+	pageParam = parseInt(req.query.page, 10);
+	req.query.page = isNaN(pageParam) ? 1 : pageParam;
+	
+	limitParam = parseInt(req.query.limit, 10);
+	req.query.limit = isNaN(limitParam) ? 9 : limitParam;
+	
 	if (req.query.sort == null) {
 		req.query.sort = 'name';
 	}
-
-	if (req.query.page == null || isNaN(req.query.page)) {
-		req.query.page = 1;
-	}
-
-	if (req.query.limit == null || isNaN(req.query.limit)) {
-		req.query.limit = 9;
-	}
-
 	if (req.query.search == null || req.query.search.trim() == '') {
 		req.query.search = '';
 	}
