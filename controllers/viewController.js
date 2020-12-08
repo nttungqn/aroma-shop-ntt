@@ -10,6 +10,7 @@ const Brand = require('./../models/brandModel');
 const Color = require('./../models/colorModel');
 const Category = require('./../models/categoryModel');
 const Comment = require('./../models/commentModel');
+const passport = require('passport');
 
 // 1) Get tour data from collection
 // 2) Build template
@@ -21,7 +22,7 @@ module.exports.getOverview = catchAsync(async (req, res, next) => {
 	const trendingProducts = await productController.getTrendingProduct(8);
 	const bestSellerProducts = await productController.getBestSellerProduct(8);
 
-	res.status(200).render('index', {
+	res.status(200).render('home', {
 		categories,
 		trendingProducts,
 		bestSellerProducts,
@@ -70,15 +71,15 @@ module.exports.getShopCategory = catchAsync(async (req, res, next) => {
 	const topProduct3 = await productController.getTopProducts(3, 6);
 	const topProduct4 = await productController.getTopProducts(3, 9);
 
-	res.status(200).render('category', {
+	res.status(200).render('shop', {
 		query: req.query,
 		categories,
 		brands,
 		colors,
 		trendingProducts,
 		products,
-		banner: 'Shop Category',
-		bannerPage: 'Shop Category',
+		banner: 'Shop',
+		bannerPage: 'Shop',
 		totalPages: Math.ceil(count / req.query.limit),
 		current: req.query.page,
 		pagination: {
@@ -134,3 +135,17 @@ module.exports.getDetailProduct = catchAsync(async (req, res, next) => {
 		},
 	});
 });
+
+
+module.exports.getLoginView = (req, res) => {
+	res.render('login');
+}
+
+module.exports.handleLogin = async (req, res, next) => {
+	console.log('Login 11111111111');
+	await passport.authenticate('local-login', { successRedirect: '/', failureRedirect: '/login' })(req, res, next);
+}
+
+module.exports.getRegisterView = (req, res) => {
+	res.render('register')
+}

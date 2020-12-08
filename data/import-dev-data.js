@@ -13,7 +13,8 @@ const bcrypt = require('bcryptjs');
 
 dotenv.config({ path: './.env' });
 
-const DB = process.env.DATABASE_ONLINE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD_ONLINE);
+
+const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
 
 mongoose
 	.connect(DB, {
@@ -40,13 +41,11 @@ const importData = async () => {
 		await Brand.create(brands);
 		await Color.create(colors);
 		await Category.create(categories);
-		// await Product.create(products);
+		await Product.create(products);
 		await Comment.create(comments);
 		let password = 'user123';
 		for (let i in users) {
-			let salt = await bcrypt.genSalt(10);
-			let hashedPassword = await bcrypt.hash(password, salt);
-			users[i].password = hashedPassword;
+			users[i].password = await bcrypt.hash(password, 12);
 		}
 		await User.create(users);
 		console.log('Data successfully loaded!');

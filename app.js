@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser');
 const Handlebars = require('handlebars');
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 const paginate = require('express-handlebars-paginate');
+const passport = require('passport');
 
 const userRouter = require('./routes/userRoutes');
 const viewRouter = require('./routes/viewRoutes');
@@ -55,6 +56,7 @@ app.use(
 	})
 );
 
+
 app.use(morgan('dev'));
 
 app.use(compression());
@@ -62,6 +64,7 @@ app.use(compression());
 app.use((req, res, next) => {
 	var cart = new Cart(req.session.cart ? req.session.cart : {});
 	req.session.cart = cart;
+	res.locals.session = req.session;
 	res.locals.totalQuantity = cart.totalQuantity;
 	res.locals.user = req.session.user ? req.session.user : {};
 	res.locals.fullname = req.session.user ? req.session.user.fullname : '';
@@ -69,10 +72,17 @@ app.use((req, res, next) => {
 	next();
 });
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/', viewRouter);
 app.use('/cart', cartRouter);
 app.use('/users/', userRouter);
 app.use('/comments', commentRouter);
+
+
+// pass passport for configuration
+require('./config/passport')(passport);
 
 app.all('*', (req, res, next) => {
 	next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
