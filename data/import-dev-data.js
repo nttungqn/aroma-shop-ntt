@@ -14,7 +14,7 @@ const bcrypt = require('bcryptjs');
 dotenv.config({ path: './.env' });
 
 
-const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
+const DB = process.env.DATABASE_ONLINE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD_ONLINE);
 
 mongoose
 	.connect(DB, {

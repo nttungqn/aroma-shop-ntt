@@ -9,7 +9,7 @@ const productSchema = new mongoose.Schema(
 			trim: true,
 			text: true,
 			required: [true, 'A shoes must have a name'],
-			unique: true,
+			unique: false,
 			maxlength: [50, 'A shoes name must have less or equal than 50 characters'],
 			minlength: [3, 'A shoes name must have more or equal than 6 characters'],
 		},
