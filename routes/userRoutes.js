@@ -7,11 +7,10 @@ const router = express.Router();
 
 
 router.get('/logout', (req, res, next) => {
-	req.session.destroy((err) => {
-		if (err) {
-			return next(err);
-		}
-		return res.redirect('/products');
-	});
+	if (req.session.cart) {
+		req.session.cart = null;
+	}
+	req.logout();
+	res.redirect("/")
 });
 module.exports = router;

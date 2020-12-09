@@ -76,17 +76,22 @@ app.use(morgan('dev'));
 
 app.use(compression());
 
+// passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use((req, res, next) => {
 	var cart = new Cart(req.session.cart ? req.session.cart : {});
-	req.session.cart = cart;
+	req.session.cart = cart
 	res.locals.session = req.session;
 	res.locals.totalQuantity = cart.totalQuantity;
-	res.locals.user = req.session.passport ? req.session.passport.user : {};
+	if(req.user)
+		res.locals.user = req.user;
+
 	next();
 });
 
-app.use(passport.initialize());
-app.use(passport.session());
+
 
 app.use('/', viewRouter);
 app.use('/cart', cartRouter);

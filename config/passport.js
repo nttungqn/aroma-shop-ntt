@@ -1,22 +1,19 @@
 const LocalStrategy = require('passport-local').Strategy;
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
+const userController = require('./../controllers/userController');
 const User = require('./../models/userModel');
 
 module.exports = function () {
     passport.serializeUser(function (user, done) {
-        done(null, user);
+        done(null, user._id);
     });
 
-    passport.deserializeUser(function (id, done) {
-        User.findById(id)
-            .then(function (user) {
-                done(null, user);
-            })
-            .catch(function (err) {
-                console.log(err);
-            });
-    });
+    passport.deserializeUser(function(id, done) {
+        User.findById(id, function(err, user) {
+            done(err, user);
+        });
+      });
 
     passport.use(
         'local-login',
@@ -24,7 +21,7 @@ module.exports = function () {
             usernameField: 'email',
             passwordField: 'password',
             passReqToCallback: true,
-            session: false
+            session: true
         },
         async function (req, email, password, done) {
             try {

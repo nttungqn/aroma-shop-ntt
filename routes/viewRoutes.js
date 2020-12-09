@@ -11,10 +11,11 @@ router.get('/products/:id', viewController.getDetailProduct);
 router.route('/login').get(viewController.getLoginView);
 router.post(
     '/login',
-    passport.authenticate('local-login', { failureRedirect: '/login' }),
-    function (req, res) {
-        res.redirect('/');
-    }
+    passport.authenticate('local-login', {
+        successRedirect: '/',
+        failureRedirect: '/login',
+        failureFlash: true
+    })
 );
 router.route('/register').get(viewController.getRegisterView);
 
