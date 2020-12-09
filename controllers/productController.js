@@ -28,6 +28,18 @@ module.exports.getTopProducts = (numItems, skip) => {
 	});
 };
 
+module.exports.getProductsByBrandId = (brandId, numItems, skip) => {
+	return new Promise((resolve, reject) => {
+		Product.find({brandId: brandId})
+			.limit(numItems)
+			.skip(skip)
+			.then((data) => {
+				resolve(data);
+			})
+			.catch((err) => reject(new Error(err)));
+	});
+};
+
 module.exports.getBestSellerProduct = (numItems) => {
 	return new Promise((resolve, reject) => {
 		Product.find()

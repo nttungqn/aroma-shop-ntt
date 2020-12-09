@@ -113,10 +113,10 @@ module.exports.getDetailProduct = catchAsync(async (req, res, next) => {
 	}
 	const comments = await commentController.getCommentByProductId(req.query, req.params.id);
 	
-	const topProduct1 = await productController.getTopProducts(3, 0);
-	const topProduct2 = await productController.getTopProducts(3, 3);
-	const topProduct3 = await productController.getTopProducts(3, 6);
-	const topProduct4 = await productController.getTopProducts(3, 9);
+	const topProduct1 = await productController.getProductsByBrandId(product.brandId, 3, 0);
+	const topProduct2 = await productController.getProductsByBrandId(product.brandId, 3, 3);
+	const topProduct3 = await productController.getProductsByBrandId(product.brandId, 3, 6);
+	const topProduct4 = await productController.getProductsByBrandId(product.brandId, 3, 9);
 
 	res.status(200).render('single-product', {
 		product,
