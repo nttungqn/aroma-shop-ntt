@@ -3,11 +3,9 @@ const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const User = require('./../models/userModel');
 
-SALT = 'VOOuoswY4b'
-
 module.exports = function () {
     passport.serializeUser(function (user, done) {
-        done(null, user.id);
+        done(null, user);
     });
 
     passport.deserializeUser(function (id, done) {
@@ -22,34 +20,32 @@ module.exports = function () {
 
     passport.use(
         'local-login',
-        new LocalStrategy(function (email, password, done) {
-            User.findOne({ email: email })
-                .then(function (user) {
-                    let hashedPassword = '';
-                    bcrypt.hash(password, 12, function (err, hash) {
-                        if (err) { return done(err); }
-                        hashedPassword = hash;
-                        console.log(hashedPassword);
-                    });
-                    bcrypt.compare(hashedPassword, user.password, function (err, result) {
-                        console.log(hashedPassword, user.password);
-                        if (err) {
-                            return done(err);
-                        }
-                        if (!result) {
-                            return done(null, false, {
-                                message: 'Incorrect username and password',
-                            });
-                            
-                        }
-                        return done(null, user);
-                    });
-                })
-                .catch(function (err) {
-                    return done(err);
+        new LocalStrategy({
+            usernameField: 'email',
+            passwordField: 'password',
+            passReqToCallback: true,
+            session: false
+        },
+        async function (req, email, password, done) {
+            try {
+                const user = await User.findOne({ email: email });
+                bcrypt.compare(password, user.password, function (err, result) {
+                    if (err) {
+                        return done(err);
+                    }
+                    if (!result) {
+                        console.error('Incorrect username and password')
+                        return done(null, false, {
+                            message: 'Incorrect username and password',
+                        });
+
+                    }
+                    console.log('Success')
+                    return done(null, user);
                 });
+            } catch (err) {
+                return done(err);
+            };
         })
     );
-
-
 }

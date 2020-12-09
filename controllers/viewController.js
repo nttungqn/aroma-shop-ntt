@@ -142,7 +142,6 @@ module.exports.getLoginView = (req, res) => {
 }
 
 module.exports.handleLogin = async (req, res, next) => {
-	console.log('Login 11111111111');
 	await passport.authenticate('local-login', { successRedirect: '/', failureRedirect: '/login' })(req, res, next);
 }
 
