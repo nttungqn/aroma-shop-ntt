@@ -52,12 +52,13 @@
                         {{#if user}}
                         <li class="nav-item submenu dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                                aria-haspopup="true" aria-expanded="false">{{user.name}}</a>
+                                aria-haspopup="true" aria-expanded="false">My account</i></a>
                             <ul class="dropdown-menu">
-                                <li class="nav-item"><a class="nav-link" href="/users/logout">Logout</a></li>
+                                <li class="nav-item"><a class="nav-link" style="width:350p;" href="#">Hello <strong>{{user.name}}</strong></a></li>
+                                <li class="nav-item"><a class="nav-link" style="width:350px" href="#">Update profile</a></li>
+                                <li class="nav-item"><a class="nav-link" style="width:350px; color:red" href="/users/logout">Logout</a></li>
                             </ul>
-                        </li>
-
+                        </li>    
                         {{else}}
                         <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
                         <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
@@ -72,6 +73,7 @@
                             <button onclick="location.href='/cart'"><i class="ti-shopping-cart"></i><span
                                     class="nav-shop__circle" id="cart-badge">{{totalQuantity}}</span></button>
                         </li>
+                        
                         <li class="nav-item"><a class="button button-header" href="/products">Buy Now</a></li>
                     </ul>
                 </div>

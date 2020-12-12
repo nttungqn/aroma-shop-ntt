@@ -37,7 +37,6 @@ module.exports = function () {
                         });
 
                     }
-                    console.log('Success')
                     return done(null, user);
                 });
             } catch (err) {
