@@ -14,7 +14,7 @@ router.post(
     passport.authenticate('local-login', {
         successRedirect: '/',
         failureRedirect: '/login',
-        failureFlash: true
+        failureFlash: false
     })
 );
 router.route('/register').get(viewController.getRegisterView);

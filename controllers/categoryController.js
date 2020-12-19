@@ -1,6 +1,7 @@
 const Category = require('../models/categoryModel');
+const catchAsync = require('./../utils/catchAsync');
 
-module.exports.getAll = (query) => {
+module.exports.getAll = catchAsync(async() => {
 	return new Promise((resolve, reject) => {
 		let options = {};
 
@@ -10,4 +11,4 @@ module.exports.getAll = (query) => {
 			})
 			.catch((err) => reject(new Error(err)));
 	});
-};
+});

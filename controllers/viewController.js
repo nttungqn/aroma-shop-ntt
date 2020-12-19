@@ -1,8 +1,6 @@
-/** @format */
+
 const catchAsync = require('./../utils/catchAsync');
 const productController = require('./../controllers/productController');
-const brandController = require('./../controllers/brandController');
-const categoryController = require('./../controllers/categoryController');
 const commentController = require('./../controllers/commentController');
 const AppError = require('./../utils/AppError');
 const Product = require('./../models/productModel');
@@ -18,7 +16,7 @@ const passport = require('passport');
 const COMMENTS_PER_PAGE = 3;
 
 module.exports.getOverview = catchAsync(async (req, res, next) => {
-	const categories = await categoryController.getAll();
+	const categories = await Category.find();
 	const trendingProducts = await productController.getTrendingProduct(8);
 	const bestSellerProducts = await productController.getBestSellerProduct(8);
 
@@ -30,46 +28,75 @@ module.exports.getOverview = catchAsync(async (req, res, next) => {
 });
 
 module.exports.getShopCategory = catchAsync(async (req, res, next) => {
-	const categories = await categoryController.getAll();
-	const brands = await brandController.getAll();
-	const trendingProducts = await productController.getTrendingProduct(12);
+	const categories = await Category.find();
+	const brands = await Brand.find();
 	const colors = await Color.find();
+	const trendingProducts = await productController.getTrendingProduct(12);
 
-	colorParam = parseInt(req.query.color, 10);
-	req.query.color = isNaN(colorParam) ? 0 : colorParam;
-
-	brandParam = parseInt(req.query.brand, 10);
-	req.query.brand = isNaN(brandParam) ? 0 : brandParam;
-
-	categoryParam = parseInt(req.query.category, 10);
-	req.query.category = isNaN(categoryParam) ? 0 : categoryParam;
-
-	minParam = parseInt(req.query.min, 10);
-	req.query.min = isNaN(minParam) ? 0 : minParam;
-
-	maxParam = parseInt(req.query.max, 10);
-	req.query.max = isNaN(maxParam) ? 150 : maxParam;
-
+	let options = {
+		// price: {
+		// 	$gte: query.min,
+		// 	$lte: query.max,
+		// },
+		// name: {
+		// 	$regex: query.search,
+		// },
+	};
 	
-	pageParam = parseInt(req.query.page, 10);
-	req.query.page = isNaN(pageParam) ? 1 : pageParam;
+	colorParam = parseInt(req.query.color) || 0;
+	if (colorParam  > 0)
+		options.colorId = colorParam;
+
+	brandParam = parseInt(req.query.brand) || 0;
+	if (brandParam  > 0)
+		options.brandId = brandParam;
 	
-	limitParam = parseInt(req.query.limit, 10);
-	req.query.limit = isNaN(limitParam) ? 9 : limitParam;
-	
-	if (req.query.sort == null) {
-		req.query.sort = 'name';
+	categoeyParam = parseInt(req.query.categoey) || 0;
+	if (categoeyParam  > 0)
+		options.categoeyId = categoeyParam;
+
+	minParam = parseInt(req.query.min) || 0;
+	maxParam = parseInt(req.query.max) || 150;
+	options.price =  {
+		$gte: minParam,
+		$lte: maxParam,
 	}
-	if (req.query.search == null || req.query.search.trim() == '') {
+	
+	pageParam = parseInt(req.query.page) || 1;
+	limitParam = parseInt(req.query.limit) || 9;
+	
+	let sortOpt = {};
+	if (req.query.sort) {
+		switch (req.query.sort) {
+			case 'name':
+				sortOpt.name = 'asc';
+				break;
+			case 'price':
+				sortOpt.price = 'asc';
+				break;
+			case 'ratingsAverage':
+				sortOpt.ratingsAverage = 'asc';
+				break;
+			default:
+				sortOpt.name = 'asc';
+				break;
+		}
+	}
+	
+	if (req.query.search == null || req.query.search.trim() == ''){
 		req.query.search = '';
 	}
-
-	const products = await productController.getAll(req.query);
-	const count = await productController.countProducts(req.query);
-	const topProduct1 = await productController.getTopProducts(3, 0);
-	const topProduct2 = await productController.getTopProducts(3, 3);
-	const topProduct3 = await productController.getTopProducts(3, 6);
-	const topProduct4 = await productController.getTopProducts(3, 9);
+	options.name = {
+		$regex: req.query.search,
+	}
+	let offsetVal = (pageParam - 1) * limitParam;
+	const totalProducts = await Product.find(options).sort(sortOpt);
+	const products = totalProducts.slice(offsetVal, offsetVal + limitParam);
+	const topProducts = await productController.getTopProducts(9);
+	const topProduct1 = topProducts.slice(0, 3);
+	const topProduct2 = topProducts.slice(3, 6);
+	const topProduct3 = topProducts.slice(6, 9);
+	const topProduct4 = topProducts.slice(9, 12);
 
 	res.status(200).render('shop', {
 		query: req.query,
@@ -80,12 +107,12 @@ module.exports.getShopCategory = catchAsync(async (req, res, next) => {
 		products,
 		banner: 'Shop',
 		bannerPage: 'Shop',
-		totalPages: Math.ceil(count / req.query.limit),
-		current: req.query.page,
+		totalPages: Math.ceil(totalProducts.length / limitParam),
+		current: pageParam,
 		pagination: {
-			page: parseInt(req.query.page),
-			limit: parseInt(req.query.limit),
-			totalRows: parseInt(count),
+			page: parseInt(pageParam),
+			limit: parseInt(limitParam),
+			totalRows: parseInt(totalProducts.length),
 		},
 		topProduct1,
 		topProduct2,
