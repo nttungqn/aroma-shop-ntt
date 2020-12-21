@@ -12,6 +12,7 @@ const Handlebars = require('handlebars');
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 const paginate = require('express-handlebars-paginate');
 const passport = require('passport');
+const flash = require('connect-flash')
 
 const userRouter = require('./routes/userRoutes');
 const viewRouter = require('./routes/viewRoutes');
@@ -60,6 +61,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // use cookie-parser
 app.use(cookieParser());
+
+app.use(flash());
 
 // use session
 app.use(

@@ -31,7 +31,6 @@ module.exports = function () {
                         return done(err);
                     }
                     if (!result) {
-                        console.error('Incorrect username and password')
                         return done(null, false, {
                             message: 'Incorrect username and password',
                         });
