@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
 	},
 	salt: {
 		type: String
-	}
+	},
 });
 
 // gensalt

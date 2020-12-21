@@ -14,8 +14,8 @@ const paginate = require('express-handlebars-paginate');
 const passport = require('passport');
 const flash = require('connect-flash')
 
-const userRouter = require('./routes/userRoutes');
 const viewRouter = require('./routes/viewRoutes');
+const authRouter = require('./routes/authRoutes');
 const commentRouter = require('./routes/commentRoutes');
 const Cart = require('./controllers/cartController');
 const cartRouter = require('./routes/cartRoutes');
@@ -97,8 +97,8 @@ app.use((req, res, next) => {
 
 
 app.use('/', viewRouter);
+app.use('/', authRouter)
 app.use('/cart', cartRouter);
-app.use('/users/', userRouter);
 app.use('/comments', commentRouter);
 
 

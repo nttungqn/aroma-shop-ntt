@@ -4,7 +4,7 @@ const commentController = require('./../controllers/commentController');
 
 router.post('/', (req, res, next) => {
     let comment = {
-        userId: req.session.user._id,
+        userId: req.user._id,
         productId: req.body.productId,
         message: req.body.message,
     }

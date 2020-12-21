@@ -162,18 +162,3 @@ module.exports.getDetailProduct = catchAsync(async (req, res, next) => {
 		},
 	});
 });
-
-
-module.exports.getLoginView = (req, res) => {
-	res.render('login', {
-		message: req.flash('error')[0] || '',
-	});
-}
-
-module.exports.handleLogin = async (req, res, next) => {
-	await passport.authenticate('local-login', { successRedirect: '/', failureRedirect: '/login' })(req, res, next);
-}
-
-module.exports.getRegisterView = (req, res) => {
-	res.render('register')
-}
