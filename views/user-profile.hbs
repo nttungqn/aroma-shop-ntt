@@ -3,6 +3,12 @@
 <!--================User Profile Area =================-->
 <section class="tracking_box_area section-margin--small">
 	<div class="container">
+		{{#if type}}
+		  <div class="alert alert-success" role="alert">
+  			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  			<strong>Success!</strong> Update profile successfully!
+		</div>
+		{{/if}}
 		<div class="tracking_box_inner">
 			<form class="row tracking_form" action="/account" method="post" novalidate="novalidate">
 				<div class="col-md-12 form-group">
@@ -32,3 +38,11 @@
 	</div>
 </section>
 <!--================End User Profile Area =================-->
+
+<script>
+	window.setTimeout(function() {
+		$(".alert").fadeTo(500, 0).slideUp(500, function(){
+			$(this).remove(); 
+		});
+	}, 2000);
+</script>
