@@ -8,7 +8,6 @@ const Brand = require('./../models/brandModel');
 const Color = require('./../models/colorModel');
 const Category = require('./../models/categoryModel');
 const Comment = require('./../models/commentModel');
-const passport = require('passport');
 
 // 1) Get tour data from collection
 // 2) Build template

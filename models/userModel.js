@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema({
 	salt: {
 		type: String
 	},
+	phone: {
+		type: String,
+		default: '0905500456'
+	}
 });
 
 // gensalt
