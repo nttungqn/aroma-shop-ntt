@@ -15,7 +15,7 @@ const passport = require('passport');
 const flash = require('connect-flash')
 
 const viewRouter = require('./routes/viewRoutes');
-const authRouter = require('./routes/authRoutes');
+const userRouter = require('./routes/userRoutes');
 const commentRouter = require('./routes/commentRoutes');
 const Cart = require('./controllers/cartController');
 const cartRouter = require('./routes/cartRoutes');
@@ -97,7 +97,7 @@ app.use((req, res, next) => {
 
 
 app.use('/', viewRouter);
-app.use('/', authRouter)
+app.use('/', userRouter)
 app.use('/cart', cartRouter);
 app.use('/comments', commentRouter);
 

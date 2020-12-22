@@ -8,6 +8,9 @@ router.route('/login').get(authController.getLogin).post(authController.postLogi
 
 router.get('/logout', authController.logout);
 
+// Protect all routes after this middleware
+router.use(authController.protect);
+
 router.route('/account').get(userController.getAccount).post(userController.postAccount);
 
 module.exports = router;

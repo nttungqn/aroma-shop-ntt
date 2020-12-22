@@ -22,3 +22,9 @@ module.exports.logout = (req, res) => {
 	req.logout();
 	res.redirect("/")
 }
+
+module.exports.protect = (req, res, next) => {
+	if (req.user || req.session.user) 
+		next();
+	next('You are not logged in! Please log in to get access.', 401)
+}
