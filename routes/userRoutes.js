@@ -4,8 +4,8 @@ const router = express.Router();
 const authController = require('./../controllers/authController')
 const userController = require('./../controllers/userController')
 
+router.route('/sign-up').get(authController.getSignUp).post(authController.postSignUp);
 router.route('/login').get(authController.getLogin).post(authController.postLogin);
-
 router.get('/logout', authController.logout);
 
 // Protect all routes after this middleware

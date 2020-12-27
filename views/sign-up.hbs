@@ -19,16 +19,17 @@
 			<div class="col-lg-6">
 				<div class="login_form_inner register_form_inner">
 					<h3>Create an account</h3>
-					<form class="row login_form" action="/register" id="register_form" method="POST">
+					<form class="row login_form" action="/sign-up" id="register_form" method="POST"
+						oninput='confirmPassword.setCustomValidity(password.value != confirmPassword.value ? "Passwords do not match." : "")'>
 						{{#if message}}
-						<div class="col-md-12 form-group alert {{type}}">
+						<div class="col-md-12 form-group alert alert-danger">
 							<span>{{message}}</span>
 						</div>
 						{{/if}}
 						<div class="col-md-12 form-group">
-							<input type="text" class="form-control" id="fullname" name="fullname"
-								placeholder="Full name" onfocus="this.placeholder = ''"
-								onblur="this.placeholder = 'Fullname'" />
+							<input type="text" class="form-control" id="name" name="name"
+								placeholder="Name" onfocus="this.placeholder = ''"
+								onblur="this.placeholder = 'Name'" />
 						</div>
 						<div class="col-md-12 form-group">
 							<input type="email" class="form-control" id="email" name="email" placeholder="Email Address"
@@ -51,7 +52,7 @@
 							</div>
 						</div>
 						<div class="col-md-12 form-group">
-							<button type="submit" value="submit" class="button button-register w-100">Register</button>
+							<button type="submit" value="submit" class="button button-register w-100">Sign up</button>
 						</div>
 					</form>
 				</div>

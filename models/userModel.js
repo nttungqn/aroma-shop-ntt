@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema({
 	phone: {
 		type: String,
 		default: '0905500456'
+	},
+	status: {
+		type: Number,
+		default: 
 	}
 });
 
@@ -38,6 +42,7 @@ userSchema.pre('save', async function(next) {
 	this.password = await bcrypt.hash(this.password, this.salt);
 	next();
   });
+  
 const User = mongoose.model('User', userSchema, 'users');
 
 module.exports = User;
