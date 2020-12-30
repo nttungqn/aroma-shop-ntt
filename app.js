@@ -13,6 +13,7 @@ const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-ac
 const paginate = require('express-handlebars-paginate');
 const passport = require('passport');
 const flash = require('connect-flash')
+const justHandlebarsHelpers = require('just-handlebars-helpers');
 
 const viewRouter = require('./routes/viewRoutes');
 const userRouter = require('./routes/userRoutes');
@@ -38,6 +39,8 @@ const hbs = expressHandlebars.create({
 		createPagination: paginate.createPagination,
 	},
 });
+
+justHandlebarsHelpers.registerHelpers(Handlebars);
 
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');

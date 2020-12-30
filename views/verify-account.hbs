@@ -1,0 +1,21 @@
+{{>banner}}
+
+<section class="tracking_box_area section-margin--small">
+    <div class="container">
+        <div class="tracking_box_inner">
+			<div class="d-flex justify-content-center align-items-center">
+                <form class="row tracking_form" action="/verify-account" method="post">
+                <p>We've sent a verify code to your email <strong>{{user.email}}</strong>. Enter the code from the email in the field below:</p>
+                    <div class="col-md-12 form-group">
+                        <label for="verify_token">Verify code</label>
+                        <input type="text" class="form-control" id="verify_token" name="verify_token" required/>
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <button type="submit" value="submit" class="button button-tracking">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Checkout Area =================-->

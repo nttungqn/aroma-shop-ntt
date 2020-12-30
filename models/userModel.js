@@ -34,14 +34,25 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		default: DEFAULT_PHONE_NUMBER
 	},
-	status: {
+	isAuthenticated: {
 		type: Boolean,
+		required: false,
 		default: false
+	},
+	isLock: {
+		type: Boolean,
+		required: false,
+		default: false
+	},
+	verify_token: {
+		type: String,
+		required: false
 	},
 });
 
 // gensalt
 userSchema.pre('save', async function(next) {
+	if (!this.isModified('password') || this.isNew) return next();
 	this.salt = await bcrypt.genSalt(10)
 	this.password = await bcrypt.hash(this.password, this.salt);
 	next();

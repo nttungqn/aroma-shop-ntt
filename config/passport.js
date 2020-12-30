@@ -25,6 +25,12 @@ module.exports = function () {
             async function (req, email, password, done) {
                 try {
                     const user = await User.findOne({ email: email });
+                    if(!user.isAuthenticated) {
+                        return done(null, false, {
+                            message: 'Your account has not be authenticated',
+                        });
+                    }
+                    
                     bcrypt.compare(password, user.password, function (err, result) {
                         if (err) {
                             return done(err);
@@ -78,11 +84,12 @@ module.exports = function () {
                     });
                 }
                 
-                const newUser = await User.create({
+                const newUser = new User({
                     email: email,
                     password: password,
                     name: req.body.name
                 })
+                newUser.save();
                 
                 if(!newUser){
                     return done(null, false, {

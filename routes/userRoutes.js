@@ -7,6 +7,7 @@ const userController = require('./../controllers/userController')
 router.route('/sign-up').get(authController.getSignUp).post(authController.postSignUp);
 router.route('/login').get(authController.getLogin).post(authController.postLogin);
 router.get('/logout', authController.logout);
+router.route('/verify-account').get(authController.getVerifyAccount).post(authController.postVerifyAccount);
 
 // Protect all routes after this middleware
 router.use(authController.protect);

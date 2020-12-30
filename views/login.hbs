@@ -21,8 +21,9 @@
 					<h3>Log in to enter</h3>
 					<form class="row login_form" action="/login" id="contactForm" method="POST">
 						{{#if message}}
-						<div class="col-md-12 form-group alert alert-danger">
-							<span>{{message}}</span>
+						<div class="col-md-12 form-group alert alert-danger" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							{{message}}
 						</div>
 						{{/if}}
 						<div class="col-md-12 form-group">
@@ -51,3 +52,11 @@
 	</div>
 </section>
 <!--================End Login Box Area =================-->
+
+<script>
+	window.setTimeout(function() {
+		$(".alert").fadeTo(500, 0).slideUp(500, function(){
+			$(this).remove(); 
+		});
+	}, 2000);
+</script>
