@@ -3,14 +3,20 @@
 <!--================User Profile Area =================-->
 <section class="tracking_box_area section-margin--small">
 	<div class="container">
-		{{#if type}}
-		  <div class="alert alert-success" role="alert">
-  			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  			<strong>Success!</strong> Update profile successfully!
-		</div>
-		{{/if}}
+		
 		<div class="tracking_box_inner">
+			<div class="d-flex justify-content-center align-items-center">
+				
 			<form class="row tracking_form" action="/account" method="post" novalidate="novalidate">
+				<div class="col-md-12 form-group">
+					<h3>Update user profile</h3>
+				</div>
+				{{#if type}}
+				<div class="col-md-12 form-group alert alert-success" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>Success!</strong> Update profile successfully!
+				</div>
+				{{/if}}
 				<div class="col-md-12 form-group">
 					<label for="exampleInputEmail1">Email address</label>
 					<input type="email" class="form-control" id="email" name="email" placeholder="{{user.email}}" disabled>
@@ -31,9 +37,11 @@
 						onfocus="this.placeholder = ''" onblur="this.placeholder = '{{user.address}}'">
 				</div>
 				<div class="col-md-12 form-group">
+					<a href="/" class="button button-tracking" role="button">Back to home</a>
 					<button type="submit" value="submit" class="button button-tracking">Update</button>
 				</div>
 			</form>
+			</div>
 		</div>
 	</div>
 </section>

@@ -1,4 +1,5 @@
 const passport = require('passport');
+const AppError = require('./../utils/AppError')
 
 module.exports.getLogin = (req, res) => {
 	req.session.returnURL = req.query.returnURL;
@@ -40,7 +41,7 @@ module.exports.postSignUp = (req, res, next) => {
 }
 
 module.exports.protect = (req, res, next) => {
-	if (req.user || req.session.user) 
-		next();
-	next('You are not logged in! Please log in to get access.', 401)
+	if (req.user) 
+		return next();
+	return next(new AppError('You are not logged in! Please log in to get access.', 401))
 }

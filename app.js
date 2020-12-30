@@ -39,19 +39,6 @@ const hbs = expressHandlebars.create({
 	},
 });
 
-// register new function
-hbs.handlebars.registerHelper('for', function(from, to, incr, block)  {
-    var accum = '';
-    for(var i = from; i < to; i += incr)
-        accum += block.fn(i);
-    return accum;
-});
-
-hbs.handlebars.registerHelper('assign', function (varName, varValue, options) {
-    options.data.root[varName] = varValue;
-});
-
-
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 

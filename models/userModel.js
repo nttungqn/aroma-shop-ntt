@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
+DEFAULT_ADDRESS = '225 Nguyen Van Cu Street';
+DEFAULT_PHONE_NUMBER = '0905500456';
+DEFAULT_AVATAR = 'avatar-1.png';
+
 const userSchema = new mongoose.Schema({
 	name: {
 		type: String,
@@ -8,7 +12,7 @@ const userSchema = new mongoose.Schema({
 	},
 	image: {
 		type: String,
-		default: 'avatar-1.png',
+		default: DEFAULT_AVATAR,
 	},
 	email: {
 		type: String,
@@ -21,19 +25,19 @@ const userSchema = new mongoose.Schema({
 	},
 	address: { 
 		type: String,
-		default: '225 Nguyen Van Cu Street',
+		default: DEFAULT_ADDRESS,
 	},
 	salt: {
 		type: String
 	},
 	phone: {
 		type: String,
-		default: '0905500456'
+		default: DEFAULT_PHONE_NUMBER
 	},
 	status: {
-		type: Number,
-		default: 
-	}
+		type: Boolean,
+		default: false
+	},
 });
 
 // gensalt
@@ -42,6 +46,13 @@ userSchema.pre('save', async function(next) {
 	this.password = await bcrypt.hash(this.password, this.salt);
 	next();
   });
+  
+userSchema.methods.correctPassword = async function(
+	candidatePassword,
+	userPassword
+  ) {
+	return await bcrypt.compare(candidatePassword, userPassword);
+};
   
 const User = mongoose.model('User', userSchema, 'users');
 
