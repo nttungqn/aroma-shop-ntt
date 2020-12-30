@@ -12,6 +12,6 @@ router.get('/logout', authController.logout);
 router.use(authController.protect);
 
 router.route('/account').get(userController.getAccount).post(userController.postAccount);
-router.route('/change-password').get(userController.getChangePassword).post(userController.getChangePassword);
+router.route('/change-password').get(userController.getChangePassword).post(userController.postChangePassword);
 
 module.exports = router;

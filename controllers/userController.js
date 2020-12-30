@@ -32,15 +32,28 @@ module.exports.getChangePassword = (req, res) => {
 module.exports.postChangePassword = async (req, res, next) => {
     const {currentPassword, newPassword, confirmPassword} = req.body;
     const user = req.user;
-    let type = await User.correctPassword(currentPassword, user.password);
-    
-    if(type) {
-        await User.findByIdAndUpdate({_id: user._id,}, {password: newPassword})
+    let type = await user.correctPassword(currentPassword, user.password);
+    let alert;
+    if(!type) {
+        alert = {
+            type: 'danger',
+            message: 'The current password is incorrect.',
+        }
+        return res.status(404).render('change-password', {
+            banner: 'Change password',
+            user,
+            alert
+        })
     }
-        
-    res.status(200).render('user-profile', {
-        banner: 'change-password',
+    user.password = newPassword;
+    user.save();
+    alert = {
+        type: 'success',
+        message: 'Update pasword successfully.',
+    }
+    return res.status(200).render('change-password', {
+        banner: 'Change password',
         user,
-        type
+        alert
     })
 }
