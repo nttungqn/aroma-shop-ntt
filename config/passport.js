@@ -84,12 +84,11 @@ module.exports = function () {
                     });
                 }
                 
-                const newUser = new User({
+                const newUser = await User.create({
                     email: email,
                     password: password,
                     name: req.body.name
                 })
-                newUser.save();
                 
                 if(!newUser){
                     return done(null, false, {

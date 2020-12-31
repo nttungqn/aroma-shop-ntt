@@ -52,7 +52,7 @@ const userSchema = new mongoose.Schema({
 
 // gensalt
 userSchema.pre('save', async function(next) {
-	if (!this.isModified('password') || this.isNew) return next();
+	if (!this.isModified('password')) return next();
 	this.salt = await bcrypt.genSalt(10)
 	this.password = await bcrypt.hash(this.password, this.salt);
 	next();
