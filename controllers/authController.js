@@ -2,6 +2,7 @@ const passport = require('passport');
 const nodemailer = require('nodemailer');
 const randomstring = require('randomstring')
 const AppError = require('./../utils/AppError')
+const User = require('./../models/userModel')
 
 module.exports.getLogin = (req, res) => {
 	req.session.returnURL = req.query.returnURL;
@@ -104,6 +105,79 @@ module.exports.postVerifyAccount = (req, res) => {
 			user: req.user,
 		});
 	}
+}
+
+module.exports.getSendPasswordReset = async(req, res) => {
+	const message = req.flash('error')[0];
 	
+	res.render("send-password-reset", {
+		banner: "Password reset",
+		message,
+	});
+}
+
+module.exports.postSendPasswordReset = async(req, res) => {
+	const email = req.body.email;
+	const user = await User.findOne({email: email});
+	if(!user){
+		req.flash("error", "Email does not exist!");
+		return res.redirect('/send-password-reset');
+	}
 	
+	let transporter = nodemailer.createTransport({
+		service: 'Gmail',
+		auth: {
+			user: 'ttpro2015@gmail.com',
+			pass: 'sulropcniqutyenq'
+		}
+	});
+
+	const verify_token = randomstring.generate({
+		length: 6,
+		charset: 'alphabetic'
+	})
+
+	var mainOptions = { // thiết lập đối tượng, nội dung gửi mail
+		from: 'admin',
+		to: user.email,
+		subject: 'Verify sign up',
+		text: 'You recieved message from Aroma shop',
+		html: `<p>Hi ${user.name}</p><p>We received a request to access your account ${user.email} through your email address.</p><p>Your verify code: <h3>${verify_token}</h3></p>`
+	}
+	transporter.sendMail(mainOptions, (err, info) => {
+		if (err) {
+		  console.log(err);
+		} else {
+		  console.log("Sent:" + info.response);
+		}
+	  });
+	user.verify_token = verify_token;
+	user.save();
+	
+	return res.redirect(`/confirm-password-reset?email=${email}`)
+}
+
+
+module.exports.getConfirmPasswordReset = (req, res) => {
+	const message = req.flash('error')[0];
+	res.render('confirm-password-reset', {
+		banner: 'Passwords reset',
+		message: message,
+		email: req.query.email
+	})
+}
+
+module.exports.postConfirmPasswordReset = async(req, res) => {
+	const email = req.query.email;
+	const {verify_token, newPassword} = req.body;
+	const user = await User.findOne({ email: email });
+	
+	if(user.verify_token !== verify_token) {
+		req.flash("error", "Authentication error codes!");
+		return res.redirect(`/confirm-password-reset?email=${email}`)
+	}
+	
+	user.password = newPassword;
+	user.save();
+	res.redirect('/login');
 }

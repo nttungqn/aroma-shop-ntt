@@ -8,6 +8,8 @@ router.route('/sign-up').get(authController.getSignUp).post(authController.postS
 router.route('/login').get(authController.getLogin).post(authController.postLogin);
 router.get('/logout', authController.logout);
 router.route('/verify-account').get(authController.getVerifyAccount).post(authController.postVerifyAccount);
+router.route('/send-password-reset').get(authController.getSendPasswordReset).post(authController.postSendPasswordReset);
+router.route('/confirm-password-reset').get(authController.getConfirmPasswordReset).post(authController.postConfirmPasswordReset);
 
 // Protect all routes after this middleware
 router.use(authController.protect);
