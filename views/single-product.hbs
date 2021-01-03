@@ -31,21 +31,13 @@
 					</p>
 					<div class="product_count">
 						<label for="qty">Quantity:</label>
-						<button
-							onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-							class="increase items-count" type="button">
-							<i class="ti-angle-left"></i>
-						</button>
 						<input type="text" name="qty" id="sst" size="2" maxlength="8" value="1" title="Quantity:"
 							class="input-text qty" readonly />
-						<button
-							onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-							class="reduced items-count" type="button">
-							<i class="ti-angle-right"></i>
-						</button>
+						<button class="increase items-count" onclick="var result = document.getElementById('sst'); var sst = result.value; if(!isNaN(sst)) result.value++;return false;" type="button"><i class="lnr lnr-chevron-up"></i></button>
+						<button class="reduced items-count" onclick="var result = document.getElementById('sst'); var sst = result.value; if(!isNaN(sst) &amp;&amp; sst > 1) result.value--;return false;" type="button"><i class="lnr lnr-chevron-down"></i></button>
+					</div>
 						<a class="button primary-btn add-to-cart" data-id="{{product._id}}" href="#">Add to
 							Cart</a>
-					</div>
 					<div class="card_area d-flex align-items-center">
 						<a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
 						<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
@@ -73,10 +65,10 @@
 				<a class="nav-link active" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
 					aria-controls="contact" aria-selected="false">Comments</a>
 			</li>
-			<li class="nav-item">
+			{{!-- <li class="nav-item">
 				<a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review"
 					aria-selected="false">Reviews</a>
-			</li>
+			</li> --}}
 		</ul>
 		<div class="tab-content" id="myTabContent">
 			<div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -164,12 +156,11 @@
 							<div class="review_item">
 								<div class="media">
 									<div class="d-flex">
-										<img src="/img/avatars/{{this.userId.image}}" alt="" />
+										<img src="/img/avatars/{{this.avatar}}" alt="" />
 									</div>
 									<div class="media-body">
-										<h4>{{this.userId.name}}</h4>
-										<h5>{{this.createdAt}}</h5>
-										<a class="reply_btn" href="#">Reply</a>
+										<h4>{{this.name}}</h4>
+										<h5>{{this.createdAtFormat}}</h5>
 									</div>
 								</div>
 								<p>
@@ -195,8 +186,6 @@
 								<div class="form-group">
 									<input type="hidden" class="form-control" id="productId" name="productId"
 										value={{product._id}}>
-									<input type="hidden" class="form-control" id="parentCommentId"
-										name="parentCommentId" value="">
 								</div>
 								<div class="col-md-12">
 									<div class="form-group">
@@ -209,17 +198,36 @@
 								</div>
 							</form>
 							{{else}}
-							<h4>Please login to post a comment! <a
+							{{!-- <h4>Please login to post a comment! <a
 									href="/login?returnURL=/products/{{product._id}}">Click
 									here to
 									login</a>
-							</h4>
+							</h4> --}}
+							<form action="/comments" class="form-contact form-review mt-3" method="post">
+								<input type="hidden" class="form-control" id="productId" name="productId" value={{product._id}}>
+								<div class="form-group">
+									<input class="form-control" name="name" type="text" placeholder="Enter your name"
+										required />
+								</div>
+								<div class="form-group">
+									<input class="form-control" name="email" type="email"
+										placeholder="Enter email address" required />
+								</div>
+								<div class="form-group">
+									<textarea class="form-control different-control w-100" name="message" id="message"
+										cols="30" rows="5" placeholder="Enter Message"></textarea>
+								</div>
+								<div class="form-group text-center text-md-right mt-3">
+									<button type="submit" class="button button--active button-review">Submit
+										Now</button>
+								</div>
+							</form>
 							{{/if}}
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+			{{!-- <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
 				<div class="row">
 					<div class="col-lg-6">
 						<div class="row total_rate">
@@ -388,7 +396,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> --}}
 		</div>
 	</div>
 </section>

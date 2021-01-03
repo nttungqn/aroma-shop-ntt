@@ -4,15 +4,15 @@ const commentController = require('./../controllers/commentController');
 
 router.post('/', (req, res, next) => {
     let comment = {
-        userId: req.user._id,
         productId: req.body.productId,
         message: req.body.message,
+        email: req.user ? req.user.email : req.body.email,
+        avatar: req.user ? req.user.image : 'avatar-default.png',
+        name: req.user ? req.user.name : req.body.name,
     }
-    comment.parentCommentId = req.body.parentCommentId == '' ? undefined : req.body.parentCommentId;
 
     commentController.add(comment)
     .then(data => {
-        console.log(data);
         return res.redirect('/products/' + data.productId)})
     .catch(error => next(error));
 });

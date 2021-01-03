@@ -11,10 +11,7 @@ router.route('/verify-account').get(authController.getVerifyAccount).post(authCo
 router.route('/send-password-reset').get(authController.getSendPasswordReset).post(authController.postSendPasswordReset);
 router.route('/confirm-password-reset').get(authController.getConfirmPasswordReset).post(authController.postConfirmPasswordReset);
 
-// Protect all routes after this middleware
-router.use(authController.protect);
-
-router.route('/account').get(userController.getAccount).post(userController.postAccount);
-router.route('/change-password').get(userController.getChangePassword).post(userController.postChangePassword);
+router.route('/account').get(authController.protect, userController.getAccount).post(authController.protect, userController.postAccount);
+router.route('/change-password').get(authController.protect, userController.getChangePassword).post(authController.protect, userController.postChangePassword);
 
 module.exports = router;

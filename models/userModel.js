@@ -3,7 +3,8 @@ const bcrypt = require('bcryptjs');
 
 DEFAULT_ADDRESS = '225 Nguyen Van Cu Street';
 DEFAULT_PHONE_NUMBER = '0905500456';
-DEFAULT_AVATAR = 'avatar-1.png';
+let randomNumber = Math.floor(Math.random() * (3 - 1 + 1) ) + 1;
+DEFAULT_AVATAR = `avatar-${randomNumber}.png`;
 
 const userSchema = new mongoose.Schema({
 	name: {
