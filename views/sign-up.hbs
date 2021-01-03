@@ -33,6 +33,14 @@
 								onblur="this.placeholder = 'Name'" />
 						</div>
 						<div class="col-md-12 form-group">
+							<input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{10}" placeholder="Phone number" onfocus="this.placeholder = ''"
+								onblur="this.placeholder = 'Phone number'"/>
+						</div>
+						<div class="col-md-12 form-group">
+							<input type="text" class="form-control" id="address" name="address" placeholder="Address" onfocus="this.placeholder = ''"
+								onblur="this.placeholder = 'Address'" required/>
+						</div>
+						<div class="col-md-12 form-group">
 							<input type="email" class="form-control" id="email" name="email" placeholder="Email Address"
 								onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'" />
 						</div>
@@ -45,12 +53,6 @@
 							<input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
 								placeholder="Confirm Password" onfocus="this.placeholder = ''"
 								onblur="this.placeholder = 'Confirm Password'" />
-						</div>
-						<div class="col-md-12 form-group">
-							<div class="creat_account">
-								<input type="checkbox" id="keepLoggedin" name="keepLoggedin" />
-								<label for="keepLoggedin">Keep me logged in</label>
-							</div>
 						</div>
 						<div class="col-md-12 form-group">
 							<button type="submit" value="submit" class="button button-register w-100">Sign up</button>

@@ -84,11 +84,7 @@ module.exports = function () {
                     });
                 }
                 
-                const newUser = await User.create({
-                    email: email,
-                    password: password,
-                    name: req.body.name
-                })
+                const newUser = await User.create(req.body)
                 
                 if(!newUser){
                     return done(null, false, {
