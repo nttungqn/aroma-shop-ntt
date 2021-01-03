@@ -1,5 +1,3 @@
-/** @format */
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -21,6 +19,8 @@ const commentRouter = require('./routes/commentRoutes');
 const Cart = require('./controllers/cartController');
 const cartRouter = require('./routes/cartRoutes');
 const AppError = require('./utils/AppError');
+const globalErrorHandler = require('./controllers/errorController');
+
 
 const app = express();
 
@@ -59,13 +59,16 @@ app.use(
 	session({
 		cookie: { httpOnly: true, maxAge: 3600 * 24 * 30 * 1000 },
 		secret: process.env.SESSION_SECRET,
-		resave: false,
-		saveUninitialized: false,
+		resave: true,
+		saveUninitialized: true,
 	})
 );
 
 
-app.use(morgan('dev'));
+// Development logging
+if (process.env.NODE_ENV === 'development') {
+	app.use(morgan('dev'));
+}
 
 app.use(compression());
 
@@ -85,7 +88,6 @@ app.use((req, res, next) => {
 });
 
 
-
 app.use('/', viewRouter);
 app.use('/', userRouter)
 app.use('/cart', cartRouter);
@@ -98,5 +100,7 @@ require('./config/passport')(passport);
 app.all('*', (req, res, next) => {
 	next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
+
+app.use(globalErrorHandler);
 
 module.exports = app;
