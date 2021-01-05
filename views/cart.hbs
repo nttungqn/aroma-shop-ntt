@@ -1,10 +1,10 @@
 {{> banner}}
 
 <!--================Cart Area =================-->
-{{#with cart}}
 <section class="cart_area">
     <div class="container">
         <div class="cart_inner" id="cart-body">
+            {{#with cart}}
             {{#if items.length}}
             <div class="table-responsive">
                 <table class="table">
@@ -62,11 +62,7 @@
 
                             </td>
                             <td>
-                                <div class="cupon_text d-flex align-items-center">
-                                    <input type="text" placeholder="Coupon Code">
-                                    <a class="primary-btn" href="#">Apply</a>
-                                    <a class="button" href="#">Have a Coupon?</a>
-                                </div>
+                                
                             </td>
                         </tr>
                         <tr>
@@ -77,7 +73,7 @@
 
                             </td>
                             <td>
-                                <h5>Subtotal</h5>
+                                <h4>Total</h4>
                             </td>
                             <td>
                                 <h5 id="totalPrice">${{totalPrice}}</h5>
@@ -91,37 +87,28 @@
 
                             </td>
                             <td>
-                                <h5>Shipping</h5>
+                                
                             </td>
                             <td>
-                                <div class="shipping_box">
-                                    <ul class="list">
-                                        <li><a href="#">Flat Rate: $5.00</a></li>
-                                        <li><a href="#">Free Shipping</a></li>
-                                        <li><a href="#">Flat Rate: $10.00</a></li>
-                                        <li class="active"><a href="#">Local Delivery: $2.00</a></li>
-                                    </ul>
-                                    <h6>Calculate Shipping <i class="fa fa-caret-down" aria-hidden="true"></i></h6>
+                                {{!-- <div class="shipping_box">
+                                    <h6>Shipping <i class="fa fa-caret-down" aria-hidden="true"></i></h6>
                                     <select class="shipping_select">
-                                        <option value="1">Vietnam</option>
-                                    </select>
-                                    <select class="shipping_select">
-                                        <option value="1">Ho Chi Minh</option>
-                                        <option value="2">Ha Noi</option>
-                                        <option value="4">Da Nang</option>
-                                    </select>
-                                    <input type="text" placeholder="Postcode/Zipcode">
-                                    <a class="gray_btn" href="#">Update Details</a>
-                                </div>
+                                        <option value=2>Local Delivery: $2.00</option>
+                                        <option value=3>Flat Rate: $10.00</option>
+                                    </select>                                 
+                                </div> --}}
                             </td>
                         </tr>
                         <tr class="out_button_area">
                             <td></td>
                             <td>
                                 <div class="checkout_btn_inner d-flex align-items-center ">
-                                    <a class="gray_btn" href="/products" style="margin-right:100px">Continue
-                                        Shopping</a>
-                                    <a class="primary-btn ml-2" href="/confirmation">Proceed to checkout</a>
+                                    <a class="btn btn-outline-secondary" href="/products" role="button" style='margin-right: 30px;'>Back to shop</a>
+                                    {{#if ../user}}
+                                        <a class="btn btn-outline-info" href="/cart/tracking-order" role="button" style='margin-left: 30px;'>Process to checkout</a>
+                                    {{else}}
+                                        <a class="btn btn-outline-info" href="/login?returnURL=/cart/tracking-order" role="button" style='margin-left: 30px;'>Login to checkout</a>
+                                    {{/if}}
                                 </div>
                             </td>
                             <td></td>
@@ -132,8 +119,8 @@
             {{else}}
             <div class="alert alert-info text-center">Your cart is empty</div>
             {{/if}}
+            {{/with}}
         </div>
     </div>
 </section>
-{{/with}}
 <!--================End Cart Area =================-->

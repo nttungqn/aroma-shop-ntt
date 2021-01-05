@@ -16,7 +16,7 @@ const justHandlebarsHelpers = require('just-handlebars-helpers');
 const viewRouter = require('./routes/viewRoutes');
 const userRouter = require('./routes/userRoutes');
 const commentRouter = require('./routes/commentRoutes');
-const Cart = require('./controllers/cartController');
+const Cart = require('./models/cartModel');
 const cartRouter = require('./routes/cartRoutes');
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -83,7 +83,6 @@ app.use((req, res, next) => {
 	res.locals.totalQuantity = cart.totalQuantity;
 	if(req.user)
 		res.locals.user = req.user;
-
 	next();
 });
 
