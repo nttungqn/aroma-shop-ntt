@@ -13,5 +13,6 @@ router.route('/confirm-password-reset').get(authController.getConfirmPasswordRes
 
 router.route('/account').get(authController.protect, userController.getAccount).post(authController.protect, userController.postAccount);
 router.route('/change-password').get(authController.protect, userController.getChangePassword).post(authController.protect, userController.postChangePassword);
+router.get('/order-list', userController.getOrderList);
 
 module.exports = router;

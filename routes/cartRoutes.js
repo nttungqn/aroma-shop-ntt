@@ -9,7 +9,7 @@ router.route('/').get(cartController.getCart).post(cartController.postCart).put(
 
 router.use(authController.protect);
 router.route('/tracking-order').get(cartController.getTrackingOrder).post(cartController.postTrackingOrder);
-router.route('/success-order').get(cartController.getSuccessOrder).post(cartController.postSuccessOrder)
+router.route('/success-order').get(cartController.getSuccessOrder);
 
 
 module.exports = router;

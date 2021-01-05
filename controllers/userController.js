@@ -1,4 +1,5 @@
 const User = require('./../models/userModel');
+const Order = require('./../models/orderModel');
 
 module.exports.getAccount = (req, res) => {
     res.status(200).render('user-profile', {
@@ -55,5 +56,14 @@ module.exports.postChangePassword = async (req, res, next) => {
         banner: 'Change password',
         user,
         alert
+    })
+}
+
+module.exports.getOrderList = async(req, res) => {
+    const orders = await Order.find({userId: req.user._id})
+    res.render('order-list', {
+        banner: 'Order list',
+        bannerPage: 'Order list',
+        orders
     })
 }

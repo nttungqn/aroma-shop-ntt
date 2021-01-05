@@ -27,6 +27,7 @@ const app = express();
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+justHandlebarsHelpers.registerHelpers(Handlebars);
 
 // set view engine
 const hbs = expressHandlebars.create({
@@ -40,7 +41,6 @@ const hbs = expressHandlebars.create({
 	},
 });
 
-justHandlebarsHelpers.registerHelpers(Handlebars);
 
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
