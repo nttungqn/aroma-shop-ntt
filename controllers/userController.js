@@ -59,7 +59,9 @@ module.exports.postChangePassword = async (req, res, next) => {
     })
 }
 
-module.exports.getOrderList = async(req, res) => {
+module.exports.getOrderList = async(req, res, next) => {
+    if(!req.user)
+        return next(new AppError('Please login to order', 404));
     const orders = await Order.find({userId: req.user._id})
     res.render('order-list', {
         banner: 'Order list',

@@ -6,8 +6,8 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Id</th>
-                <th scope="col">Cart</th>
                 <th scope="col">Address</th>
+                <th scope="col">Total price</th>
                 <th scope="col">Created at</th>
                 <th scope="col">Status</th>
             </tr>
@@ -17,8 +17,8 @@
             <tr>
                 <th scope="row">{{@index}}</th>
                 <td>{{this._id}}</td>
-                <td>{{this.cart}}</td>
                 <td>{{this.address}}</td>
+                <td>$ {{this.cart.totalPrice}}</td>
                 <td>{{this.createdAt}}</td>
                 <td>{{this.status}}</td>
             </tr>

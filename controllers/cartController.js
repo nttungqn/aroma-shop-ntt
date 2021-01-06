@@ -70,7 +70,7 @@ module.exports.postTrackingOrder = async(req, res, next) => {
 		return next(new AppError("Cannot create order", 403));
 	}
 	req.session.cart = null;
-	res.redirect('/success-order')
+	res.redirect('/cart/success-order')
 }
 
 module.exports.getSuccessOrder = (req, res) => {
