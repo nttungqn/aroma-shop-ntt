@@ -15,7 +15,7 @@ module.exports.getLogin = (req, res) => {
 module.exports.postLogin = (req, res, next) => {
 	passport.authenticate('local-login', {
 		successRedirect: req.session.returnURL || '/',
-		failureRedirect: '/login',
+		failureRedirect: '/sign-in',
 		failureFlash: true
 	})(req, res, next);
 }
@@ -179,5 +179,5 @@ module.exports.postConfirmPasswordReset = async(req, res) => {
 	
 	user.password = newPassword;
 	user.save();
-	res.redirect('/login');
+	res.redirect('/sign-in');
 }

@@ -5,7 +5,7 @@ const authController = require('./../controllers/authController')
 const userController = require('./../controllers/userController')
 
 router.route('/sign-up').get(authController.getSignUp).post(authController.postSignUp);
-router.route('/login').get(authController.getLogin).post(authController.postLogin);
+router.route('/sign-in').get(authController.getLogin).post(authController.postLogin);
 router.get('/logout', authController.logout);
 router.route('/verify-account').get(authController.getVerifyAccount).post(authController.postVerifyAccount);
 router.route('/send-password-reset').get(authController.getSendPasswordReset).post(authController.postSendPasswordReset);
