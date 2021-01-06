@@ -91,7 +91,7 @@ module.exports.getShopCategory = catchAsync(async (req, res, next) => {
 	let offsetVal = (pageParam - 1) * limitParam;
 	const totalProducts = await Product.find(options).sort(sortOpt);
 	const products = totalProducts.slice(offsetVal, offsetVal + limitParam);
-	const topProducts = await productController.getTopProducts(9);
+	const topProducts = await productController.getTopProducts(12);
 	const topProduct1 = topProducts.slice(0, 3);
 	const topProduct2 = topProducts.slice(3, 6);
 	const topProduct3 = topProducts.slice(6, 9);
