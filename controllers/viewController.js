@@ -8,6 +8,9 @@ const Brand = require('./../models/brandModel');
 const Color = require('./../models/colorModel');
 const Category = require('./../models/categoryModel');
 const Comment = require('./../models/commentModel');
+const formidable = require('formidable')
+const path = require('path');
+const fs = require('fs');
 
 // 1) Get tour data from collection
 // 2) Build template
@@ -161,3 +164,19 @@ module.exports.getDetailProduct = catchAsync(async (req, res, next) => {
 		},
 	});
 });
+
+module.exports.uploadImage = async (req, res, next) => {
+	const form = new formidable.IncomingForm();
+	form.parse(req, async function(err, fields, files) {
+		if (err) {
+		  console.error(err.message);
+		  return;
+		}
+		let newPath = path.join(__dirname, `/../public/img/products/${files.file.name}`)
+		fs.copyFile(files.file.path, newPath, function (err) {
+			if (err) throw err;
+			res.status(200).send({message: 'Upload successful'})
+			res.end()
+		});
+	});
+}

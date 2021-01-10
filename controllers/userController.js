@@ -1,5 +1,6 @@
 const User = require('./../models/userModel');
 const Order = require('./../models/orderModel');
+const catchAsync = require('./../utils/catchAsync');
 
 module.exports.getAccount = (req, res) => {
     res.status(200).render('user-profile', {
@@ -8,9 +9,9 @@ module.exports.getAccount = (req, res) => {
     })
 }
 
-module.exports.postAccount = (req, res, next) => {
+module.exports.postAccount = catchAsync(async(req, res, next) => {
     const updateInfo = req.body;
-    const user = User.findByIdAndUpdate(req.user.id, updateInfo);
+    const user = await User.findByIdAndUpdate(req.user._id, updateInfo);
     
     if(!user){
         next(new AppError('Update user not successful', 404));
@@ -21,7 +22,7 @@ module.exports.postAccount = (req, res, next) => {
         user: req.user,
         type: true
     })
-}
+});
 
 module.exports.getChangePassword = (req, res) => {
     res.status(200).render('change-password', {
