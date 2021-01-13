@@ -25,6 +25,12 @@ module.exports = function () {
             async function (req, email, password, done) {
                 try {
                     const user = await User.findOne({ email: email });
+                    if(!user){
+                        return done(null, false, {
+                            message: 'Your account has not be sign up',
+                        });
+                    }
+                    
                     if(!user.isAuthenticated) {
                         return done(null, false, {
                             message: 'Your account has not be authenticated',

@@ -1,10 +1,9 @@
 {{> banner}}
 
 <div class="container">
-    <table class="table" style="margin-top:30px; margin-bottom:30px;">
-        <thead class="thead-dark">
+    <table class="table table-bordered" style="margin-top:30px; margin-bottom:30px;">
+        <thead>
             <tr>
-                <th scope="col">#</th>
                 <th scope="col">Id</th>
                 <th scope="col">Address</th>
                 <th scope="col">Total price</th>
@@ -15,12 +14,19 @@
         <tbody>
             {{#each orders}}
             <tr>
-                <th scope="row">{{@index}}</th>
                 <td>{{this._id}}</td>
                 <td>{{this.address}}</td>
                 <td>$ {{this.cart.totalPrice}}</td>
-                <td>{{this.createdAt}}</td>
-                <td>{{this.status}}</td>
+                <td>{{formatDate 'MM/DD/YYYY' this.createdAt}}</td>
+                {{#if (eq this.status "pending")}}
+                    <td><span class="badge badge-warning">{{this.status}}</span></td>
+                {{/if}}
+                 {{#if (eq this.status "cannceled")}}
+                    <td><span class="badge badge-danger">{{this.status}}</span></td>
+                {{/if}}
+                {{#if (eq this.status "completed")}}
+                    <td><span class="badge badge-canceled">{{this.status}}</span></td>
+                {{/if}}
             </tr>
             {{/each}}
         </tbody>
