@@ -86,6 +86,8 @@ app.use((req, res, next) => {
 	next();
 });
 
+justHandlebarsHelpers.registerHelpers(hbs.handlebars);
+
 
 app.use('/', viewRouter);
 app.use('/', userRouter)
