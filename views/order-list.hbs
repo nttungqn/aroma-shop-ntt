@@ -21,11 +21,11 @@
                 {{#if (eq this.status "pending")}}
                     <td><span class="badge badge-warning">{{this.status}}</span></td>
                 {{/if}}
-                 {{#if (eq this.status "cannceled")}}
+                 {{#if (eq this.status "canceled")}}
                     <td><span class="badge badge-danger">{{this.status}}</span></td>
                 {{/if}}
                 {{#if (eq this.status "completed")}}
-                    <td><span class="badge badge-canceled">{{this.status}}</span></td>
+                    <td><span class="badge badge-success">{{this.status}}</span></td>
                 {{/if}}
             </tr>
             {{/each}}

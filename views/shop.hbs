@@ -15,7 +15,7 @@
                   {{#each categories}}
                   <li class="filter-list"><input class="pixel-radio" type="radio" id="category{{this._id}}"
                       name="category" onclick="selectParam('category', {{this._id}}, true)"><label
-                      for="category{{this._id}}">{{this.name}}<span></span></label></li>
+                      for="category{{this._id}}">{{this.name}}<span> ({{this.quantity}})</span></label></li>
                   {{/each}}
                 </ul>
               </form>
@@ -30,8 +30,8 @@
               <ul>
                 {{#each brands}}
                 <li class="filter-list"><input class="pixel-radio" type="radio" id="brand{{this._id}}" name="brand"
-                    onclick="selectParam('brand', {{this._id}})"><label
-                    for="brand{{this._id}}">{{this.name}}<span></span></label></li>
+                    onclick="selectParam('brand', '{{this._id}}')"><label
+                    for="brand{{this._id}}">{{this.name}}<span > ({{this.quantity}})</span></label></li>
                 {{/each}}
               </ul>
             </form>
@@ -43,7 +43,7 @@
                 {{#each colors}}
                 <li class="filter-list"><input class="pixel-radio" type="radio" id="color{{this._id}}" name="color"
                     onclick="selectParam('color', {{this._id}})"><label
-                    for="color{{this._id}}">{{this.name}}<span></span></label></li>
+                    for="color{{this._id}}">{{this.name}}<span> ({{this.quantity}})</span></label></li>
                 {{/each}}
               </ul>
             </form>
@@ -103,7 +103,7 @@
             {{/each}}
           </div>
           <div class="row justify-content-center">
-            <nav aria-label="Page navigation example">
+            <nav aria-label="Page navigation example" id="pagination">
               {{{createPagination pagination paginationClass="pagination"}}}
             </nav>
           </div>
@@ -119,6 +119,7 @@
 <section class="related-product-area">
   <div class="container">
     <div class="section-intro pb-60px">
+      <p>Popular Item in the market</p>
       <h2>Top <span class="section-intro__style">Product</span></h2>
     </div>
     <div class="row mt-30">
@@ -163,7 +164,7 @@
     category: 0,
     search: '',
     color: 0,
-    brand: 0,
+    brand: '',
     min: 0,
     sort: 'name',
     max: 150,

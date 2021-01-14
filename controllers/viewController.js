@@ -34,7 +34,17 @@ module.exports.getShopCategory = catchAsync(async (req, res, next) => {
 	const brands = await Brand.find();
 	const colors = await Color.find();
 	const trendingProducts = await productController.getTrendingProduct(12);
-
+	
+	for (let [index, brand] of brands.entries()) {
+		brands[index].quantity = await Product.countDocuments({ brandId: brand._id })
+	}
+	for (let [index, category] of categories.entries()) {
+		categories[index].quantity = await Product.countDocuments({ categoryId: category._id })
+	}
+	
+	for (let [index, color] of colors.entries()) {
+		colors[index].quantity = await Product.countDocuments({ colorId: color._id })
+	}
 	let options = {
 		// price: {
 		// 	$gte: query.min,
@@ -49,13 +59,12 @@ module.exports.getShopCategory = catchAsync(async (req, res, next) => {
 	if (colorParam  > 0)
 		options.colorId = colorParam;
 
-	brandParam = parseInt(req.query.brand) || 0;
-	if (brandParam  > 0)
-		options.brandId = brandParam;
+	if (req.query.brand)
+		options.brandId = req.query.brand;
 	
-	categoeyParam = parseInt(req.query.categoey) || 0;
-	if (categoeyParam  > 0)
-		options.categoeyId = categoeyParam;
+	categoryParam = parseInt(req.query.category) || 0;
+	if (categoryParam  > 0)
+		options.categoryId = categoryParam;
 
 	minParam = parseInt(req.query.min) || 0;
 	maxParam = parseInt(req.query.max) || 150;
