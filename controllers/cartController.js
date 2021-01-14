@@ -1,6 +1,8 @@
 const productController = require('./productController');
 const Order = require('./../models/orderModel');
+const OrderDetail = require('./../models/orderDetailModel');
 const AppError = require('../utils/AppError');
+const orderDetailModel = require('./../models/orderDetailModel');
 
 module.exports.getCart = (req, res, next) => {
 	let cart = req.session.cart;
@@ -66,9 +68,23 @@ module.exports.postTrackingOrder = async(req, res, next) => {
 		phone: req.body.phone,
 	}
 	let order = await Order.create(orderInfo);
+	
 	if(!order){
 		return next(new AppError("Cannot create order", 403));
 	}
+	
+	let orderDetailInfo, arrOrderDetail = [];
+	for (itemId in orderInfo.cart.items){
+		item = orderInfo.cart.items[itemId];
+		orderDetailInfo = {
+			orderId: order._id,
+			productId: item.item._id,
+			quantity: item.quantity
+		};
+		arrOrderDetail.push(orderDetailInfo);
+	}
+	await orderDetailModel.insertMany(arrOrderDetail);
+	
 	req.session.cart = null;
 	res.redirect('/cart/success-order')
 }

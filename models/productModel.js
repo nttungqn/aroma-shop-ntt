@@ -1,5 +1,3 @@
-/** @format */
-
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema(
@@ -31,6 +29,10 @@ const productSchema = new mongoose.Schema(
 		price: {
 			type: Number,
 			required: [true, 'A shoes must have a price'],
+		},
+		warehouse: {
+			type: Number,
+			default: 100
 		},
 		description: {
 			type: String,
@@ -75,7 +77,7 @@ productSchema.pre(/^find/, function (next) {
 	});
 
 	this.populate({
-		path: 'categoryId:',
+		path: 'categoryId',
 		select: 'name',
 	});
 
